@@ -7,7 +7,7 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from retriever_src_kitchen import describe_scene, harness_config, scene_root
+from retriever_src_kitchen import describe_pipeline, describe_scene, harness_config, scene_root
 from retriever_src_kitchen.resources import verify_resources
 
 REPO = Path(__file__).resolve().parents[1]
@@ -30,6 +30,7 @@ before = set(sys.modules)
 import retriever_src_kitchen as kitchen
 assert kitchen.scene_root().is_dir()
 assert kitchen.describe_scene()["hardware_access"] is False
+assert kitchen.describe_pipeline()["starts_paused"] is True
 assert not ({"mujoco", "viser", "mink", "retriever", "numpy"} & (set(sys.modules) - before))
 assert len(threading.enumerate()) == 1
 ''')
@@ -46,6 +47,7 @@ exports = load_exports(Path("."), manifest["module"], manifest["exports"], names
 assert set(exports) == set(manifest["exports"])
 assert all(callable(value) for value in exports.values())
 assert exports["describe_scene"]()["name"] == "SRC Kitchen"
+assert exports["describe_pipeline"]()["nodes"][0]["name"] == "skill_dispatcher"
 assert exports["scene_root"]().joinpath("output/kitchen-sim.xml").is_file()
 assert not ({"mujoco", "viser", "mink"} & (set(sys.modules) - before))
 ''')
@@ -56,6 +58,14 @@ def test_scene_metadata_matches_assets():
     assert info["drawers"] == {"kitchen": 12, "tabletop_organizer": 4}
     assert info["parked_robot"]["visual_only"] is True
     assert info["controlled_robot"] == "Panda"
+
+
+def test_pipeline_description_is_detached():
+    first = describe_pipeline()
+    first["nodes"].clear()
+    second = describe_pipeline()
+    assert len(second["nodes"]) == 5
+    assert second["edges"][-1] == ["task_verifier", "event_sink"]
 
 
 def test_resource_inventory():

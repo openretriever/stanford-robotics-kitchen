@@ -32,7 +32,7 @@ def main(argv=None):
     else:
         report = verify_resources()
         if not report["ok"]:
-            parser.error("Scene resources are incomplete or changed; run src-kitchen verify (and git lfs pull after cloning)")
+            parser.error("Scene resources are incomplete or changed; run stanford-robotics-kitchen verify (and git lfs pull after cloning)")
         preview(port=args.port, viewer_port=args.viewer_port, task=args.task, output_dir=args.output_dir)
 
 

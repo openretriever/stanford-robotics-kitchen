@@ -668,8 +668,8 @@ wheels = [
 ]
 
 [[package]]
-name = "retriever-src-kitchen"
-version = "0.1.0"
+name = "stanford-robotics-kitchen"
+version = "0.2.0"
 source = { editable = "." }
 
 [package.optional-dependencies]
@@ -728,8 +728,8 @@ requires-dist = [
     { name = "pytest", marker = "extra == 'test'", specifier = ">=8,<10" },
     { name = "quadprog", marker = "extra == 'simulation'", specifier = "==0.1.13" },
     { name = "retriever-core", marker = "extra == 'preview'", specifier = "==0.0.4" },
-    { name = "retriever-src-kitchen", extras = ["preview"], marker = "extra == 'assets'" },
-    { name = "retriever-src-kitchen", extras = ["simulation"], marker = "extra == 'preview'" },
+    { name = "stanford-robotics-kitchen", extras = ["preview"], marker = "extra == 'assets'" },
+    { name = "stanford-robotics-kitchen", extras = ["simulation"], marker = "extra == 'preview'" },
     { name = "trimesh", marker = "extra == 'simulation'", specifier = "==4.12.2" },
     { name = "viser", marker = "extra == 'preview'", specifier = "==1.1.0" },
     { name = "yourdfpy", marker = "extra == 'assets'", specifier = "==0.0.60" },

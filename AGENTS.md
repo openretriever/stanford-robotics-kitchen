@@ -16,7 +16,7 @@ third-party licenses. Do not imply branding or redistribution permission.
 # Verification
 
 Use `uv sync --extra preview --extra test`, then `uv run pytest`.
-Use `uv run src-kitchen preview --port 8105 --viewer-port 8106` for visual QA.
+Use `uv run stanford-robotics-kitchen preview --port 8105 --viewer-port 8106` for visual QA.
 Runtime outputs belong in `runs/`, never inside the installed scene resources.
 Keep the legacy scene-source layout compatible with existing consumers until
 they migrate to the package API. Do not silently replace a reviewed scene pin.

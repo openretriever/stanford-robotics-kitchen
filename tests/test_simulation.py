@@ -4,7 +4,7 @@ import sys
 import numpy as np
 import pytest
 
-from retriever_src_kitchen import create_demo, create_scene
+from retriever_src_kitchen import create_demo, create_pipeline, create_scene
 from retriever_src_kitchen.api import _scene_imports
 
 pytestmark = pytest.mark.simulation
@@ -54,6 +54,31 @@ def test_scripted_demo_remains_paused(demo):
     assert demo.frame == 0
     assert demo.data.time == 0
     assert len(demo.arm_q) == 7
+
+
+def test_hub_pipeline_builds_the_paused_flow_graph(tmp_path):
+    pipeline = create_pipeline(task="search", output_dir=tmp_path)
+    try:
+        runtime = pipeline.kitchen_runtime
+        assert pipeline.get_name() == "kitchen_search"
+        assert set(pipeline.get_flow_dict()) == {
+            "skill_dispatcher", "inverse_kinematics", "mujoco_simulator",
+            "task_verifier", "event_sink",
+        }
+        pipeline.validate()
+        pipeline.step(dt=0.02)
+        assert runtime.controls.snapshot().paused
+        assert runtime.demo.frame == 0
+        assert runtime.demo.data.time == 0
+        assert runtime.scene is None
+    finally:
+        pipeline.close_stepper()
+
+
+@pytest.mark.parametrize("task", ["unknown", "SEARCH", ""])
+def test_pipeline_rejects_unknown_tasks(task):
+    with pytest.raises(ValueError):
+        create_pipeline(task=task)
 
 
 def test_all_drawers_and_contents_roundtrip(demo):

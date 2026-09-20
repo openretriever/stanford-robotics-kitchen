@@ -1,7 +1,7 @@
 {
   "schema": "retriever.src-kitchen/1",
   "name": "SRC Kitchen",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "units": "meters",
   "up_axis": "+Z",
   "scale": "Estimated reconstruction, not a surveyed digital twin",
