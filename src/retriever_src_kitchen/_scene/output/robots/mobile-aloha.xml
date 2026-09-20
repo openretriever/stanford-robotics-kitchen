@@ -1,0 +1,347 @@
+<mujoco>
+  <asset>
+    <mesh name="mobile_aloha_visual_000" file="mobile-aloha-assets/mobile_aloha_visual_000.obj" />
+    <material name="mobile_aloha_finish_joint" rgba="0.1176471 0.1294118 0.145098 1" metallic="0.25" roughness="0.42" specular="0.45" shininess="0.35" />
+    <mesh name="mobile_aloha_visual_001" file="mobile-aloha-assets/mobile_aloha_visual_001.obj" />
+    <mesh name="mobile_aloha_visual_002" file="mobile-aloha-assets/mobile_aloha_visual_002.obj" />
+    <material name="mobile_aloha_finish_arm" rgba="0.1882353 0.2078431 0.227451 1" metallic="0.45" roughness="0.36" specular="0.45" shininess="0.35" />
+    <mesh name="mobile_aloha_visual_003" file="mobile-aloha-assets/mobile_aloha_visual_003.obj" />
+    <mesh name="mobile_aloha_visual_004" file="mobile-aloha-assets/mobile_aloha_visual_004.obj" />
+    <mesh name="mobile_aloha_visual_005" file="mobile-aloha-assets/mobile_aloha_visual_005.obj" />
+    <mesh name="mobile_aloha_visual_006" file="mobile-aloha-assets/mobile_aloha_visual_006.obj" />
+    <mesh name="mobile_aloha_visual_007" file="mobile-aloha-assets/mobile_aloha_visual_007.obj" />
+    <material name="mobile_aloha_finish_steel" rgba="0.654902 0.7058824 0.7411765 1" metallic="0.75" roughness="0.28" specular="0.45" shininess="0.35" />
+    <mesh name="mobile_aloha_visual_008" file="mobile-aloha-assets/mobile_aloha_visual_008.obj" />
+    <mesh name="mobile_aloha_visual_009" file="mobile-aloha-assets/mobile_aloha_visual_009.obj" />
+    <mesh name="mobile_aloha_visual_010" file="mobile-aloha-assets/mobile_aloha_visual_010.obj" />
+    <mesh name="mobile_aloha_visual_011" file="mobile-aloha-assets/mobile_aloha_visual_011.obj" />
+    <mesh name="mobile_aloha_visual_012" file="mobile-aloha-assets/mobile_aloha_visual_012.obj" />
+    <mesh name="mobile_aloha_visual_013" file="mobile-aloha-assets/mobile_aloha_visual_013.obj" />
+    <mesh name="mobile_aloha_visual_014" file="mobile-aloha-assets/mobile_aloha_visual_014.obj" />
+    <mesh name="mobile_aloha_visual_015" file="mobile-aloha-assets/mobile_aloha_visual_015.obj" />
+    <mesh name="mobile_aloha_visual_016" file="mobile-aloha-assets/mobile_aloha_visual_016.obj" />
+    <mesh name="mobile_aloha_visual_017" file="mobile-aloha-assets/mobile_aloha_visual_017.obj" />
+    <mesh name="mobile_aloha_visual_018" file="mobile-aloha-assets/mobile_aloha_visual_018.obj" />
+    <mesh name="mobile_aloha_visual_019" file="mobile-aloha-assets/mobile_aloha_visual_019.obj" />
+    <mesh name="mobile_aloha_visual_020" file="mobile-aloha-assets/mobile_aloha_visual_020.obj" />
+    <mesh name="mobile_aloha_visual_021" file="mobile-aloha-assets/mobile_aloha_visual_021.obj" />
+    <mesh name="mobile_aloha_visual_022" file="mobile-aloha-assets/mobile_aloha_visual_022.obj" />
+    <mesh name="mobile_aloha_visual_023" file="mobile-aloha-assets/mobile_aloha_visual_023.obj" />
+    <mesh name="mobile_aloha_visual_024" file="mobile-aloha-assets/mobile_aloha_visual_024.obj" />
+    <mesh name="mobile_aloha_visual_025" file="mobile-aloha-assets/mobile_aloha_visual_025.obj" />
+    <mesh name="mobile_aloha_visual_026" file="mobile-aloha-assets/mobile_aloha_visual_026.obj" />
+    <mesh name="mobile_aloha_visual_027" file="mobile-aloha-assets/mobile_aloha_visual_027.obj" />
+    <mesh name="mobile_aloha_visual_028" file="mobile-aloha-assets/mobile_aloha_visual_028.obj" />
+    <mesh name="mobile_aloha_visual_029" file="mobile-aloha-assets/mobile_aloha_visual_029.obj" />
+    <mesh name="mobile_aloha_visual_030" file="mobile-aloha-assets/mobile_aloha_visual_030.obj" />
+    <mesh name="mobile_aloha_visual_031" file="mobile-aloha-assets/mobile_aloha_visual_031.obj" />
+    <mesh name="mobile_aloha_visual_032" file="mobile-aloha-assets/mobile_aloha_visual_032.obj" />
+    <mesh name="mobile_aloha_visual_033" file="mobile-aloha-assets/mobile_aloha_visual_033.obj" />
+    <mesh name="mobile_aloha_visual_034" file="mobile-aloha-assets/mobile_aloha_visual_034.obj" />
+    <mesh name="mobile_aloha_visual_035" file="mobile-aloha-assets/mobile_aloha_visual_035.obj" />
+    <mesh name="mobile_aloha_visual_036" file="mobile-aloha-assets/mobile_aloha_visual_036.obj" />
+    <material name="mobile_aloha_finish_frame" rgba="0.1686275 0.1843137 0.2 1" metallic="0.3" roughness="0.48" specular="0.45" shininess="0.35" />
+    <mesh name="mobile_aloha_visual_037" file="mobile-aloha-assets/mobile_aloha_visual_037.obj" />
+    <material name="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" metallic="0.12" roughness="0.4" specular="0.45" shininess="0.35" />
+    <mesh name="mobile_aloha_visual_038" file="mobile-aloha-assets/mobile_aloha_visual_038.obj" />
+    <mesh name="mobile_aloha_visual_039" file="mobile-aloha-assets/mobile_aloha_visual_039.obj" />
+    <mesh name="mobile_aloha_visual_040" file="mobile-aloha-assets/mobile_aloha_visual_040.obj" />
+    <mesh name="mobile_aloha_visual_041" file="mobile-aloha-assets/mobile_aloha_visual_041.obj" />
+    <mesh name="mobile_aloha_visual_042" file="mobile-aloha-assets/mobile_aloha_visual_042.obj" />
+    <mesh name="mobile_aloha_visual_043" file="mobile-aloha-assets/mobile_aloha_visual_043.obj" />
+    <mesh name="mobile_aloha_visual_044" file="mobile-aloha-assets/mobile_aloha_visual_044.obj" />
+    <mesh name="mobile_aloha_visual_045" file="mobile-aloha-assets/mobile_aloha_visual_045.obj" />
+    <mesh name="mobile_aloha_visual_046" file="mobile-aloha-assets/mobile_aloha_visual_046.obj" />
+    <mesh name="mobile_aloha_visual_047" file="mobile-aloha-assets/mobile_aloha_visual_047.obj" />
+    <mesh name="mobile_aloha_visual_048" file="mobile-aloha-assets/mobile_aloha_visual_048.obj" />
+    <mesh name="mobile_aloha_visual_049" file="mobile-aloha-assets/mobile_aloha_visual_049.obj" />
+    <mesh name="mobile_aloha_visual_050" file="mobile-aloha-assets/mobile_aloha_visual_050.obj" />
+    <mesh name="mobile_aloha_visual_051" file="mobile-aloha-assets/mobile_aloha_visual_051.obj" />
+    <mesh name="mobile_aloha_visual_052" file="mobile-aloha-assets/mobile_aloha_visual_052.obj" />
+    <mesh name="mobile_aloha_visual_053" file="mobile-aloha-assets/mobile_aloha_visual_053.obj" />
+    <mesh name="mobile_aloha_visual_054" file="mobile-aloha-assets/mobile_aloha_visual_054.obj" />
+    <mesh name="mobile_aloha_visual_055" file="mobile-aloha-assets/mobile_aloha_visual_055.obj" />
+    <mesh name="mobile_aloha_visual_056" file="mobile-aloha-assets/mobile_aloha_visual_056.obj" />
+    <mesh name="mobile_aloha_visual_057" file="mobile-aloha-assets/mobile_aloha_visual_057.obj" />
+    <mesh name="mobile_aloha_visual_058" file="mobile-aloha-assets/mobile_aloha_visual_058.obj" />
+    <mesh name="mobile_aloha_visual_059" file="mobile-aloha-assets/mobile_aloha_visual_059.obj" />
+    <mesh name="mobile_aloha_visual_060" file="mobile-aloha-assets/mobile_aloha_visual_060.obj" />
+    <mesh name="mobile_aloha_visual_061" file="mobile-aloha-assets/mobile_aloha_visual_061.obj" />
+    <mesh name="mobile_aloha_visual_062" file="mobile-aloha-assets/mobile_aloha_visual_062.obj" />
+    <mesh name="mobile_aloha_visual_063" file="mobile-aloha-assets/mobile_aloha_visual_063.obj" />
+    <mesh name="mobile_aloha_visual_064" file="mobile-aloha-assets/mobile_aloha_visual_064.obj" />
+    <mesh name="mobile_aloha_visual_065" file="mobile-aloha-assets/mobile_aloha_visual_065.obj" />
+    <mesh name="mobile_aloha_visual_066" file="mobile-aloha-assets/mobile_aloha_visual_066.obj" />
+    <mesh name="mobile_aloha_visual_067" file="mobile-aloha-assets/mobile_aloha_visual_067.obj" />
+    <mesh name="mobile_aloha_visual_068" file="mobile-aloha-assets/mobile_aloha_visual_068.obj" />
+    <mesh name="mobile_aloha_visual_069" file="mobile-aloha-assets/mobile_aloha_visual_069.obj" />
+    <mesh name="mobile_aloha_visual_070" file="mobile-aloha-assets/mobile_aloha_visual_070.obj" />
+    <mesh name="mobile_aloha_visual_071" file="mobile-aloha-assets/mobile_aloha_visual_071.obj" />
+    <mesh name="mobile_aloha_visual_072" file="mobile-aloha-assets/mobile_aloha_visual_072.obj" />
+    <mesh name="mobile_aloha_visual_073" file="mobile-aloha-assets/mobile_aloha_visual_073.obj" />
+    <material name="mobile_aloha_finish_rubber" rgba="0.06666667 0.0745098 0.08627451 1" metallic="0.0" roughness="0.82" specular="0.45" shininess="0.35" />
+    <mesh name="mobile_aloha_visual_074" file="mobile-aloha-assets/mobile_aloha_visual_074.obj" />
+    <mesh name="mobile_aloha_visual_075" file="mobile-aloha-assets/mobile_aloha_visual_075.obj" />
+    <mesh name="mobile_aloha_visual_076" file="mobile-aloha-assets/mobile_aloha_visual_076.obj" />
+    <mesh name="mobile_aloha_visual_077" file="mobile-aloha-assets/mobile_aloha_visual_077.obj" />
+    <mesh name="mobile_aloha_visual_078" file="mobile-aloha-assets/mobile_aloha_visual_078.obj" />
+    <mesh name="mobile_aloha_visual_079" file="mobile-aloha-assets/mobile_aloha_visual_079.obj" />
+    <mesh name="mobile_aloha_visual_080" file="mobile-aloha-assets/mobile_aloha_visual_080.obj" />
+    <mesh name="mobile_aloha_visual_081" file="mobile-aloha-assets/mobile_aloha_visual_081.obj" />
+    <mesh name="mobile_aloha_visual_082" file="mobile-aloha-assets/mobile_aloha_visual_082.obj" />
+    <mesh name="mobile_aloha_visual_083" file="mobile-aloha-assets/mobile_aloha_visual_083.obj" />
+    <mesh name="mobile_aloha_visual_084" file="mobile-aloha-assets/mobile_aloha_visual_084.obj" />
+    <mesh name="mobile_aloha_visual_085" file="mobile-aloha-assets/mobile_aloha_visual_085.obj" />
+    <mesh name="mobile_aloha_visual_086" file="mobile-aloha-assets/mobile_aloha_visual_086.obj" />
+    <mesh name="mobile_aloha_visual_087" file="mobile-aloha-assets/mobile_aloha_visual_087.obj" />
+    <mesh name="mobile_aloha_visual_088" file="mobile-aloha-assets/mobile_aloha_visual_088.obj" />
+    <mesh name="mobile_aloha_visual_089" file="mobile-aloha-assets/mobile_aloha_visual_089.obj" />
+    <mesh name="mobile_aloha_visual_090" file="mobile-aloha-assets/mobile_aloha_visual_090.obj" />
+    <mesh name="mobile_aloha_visual_091" file="mobile-aloha-assets/mobile_aloha_visual_091.obj" />
+    <mesh name="mobile_aloha_visual_092" file="mobile-aloha-assets/mobile_aloha_visual_092.obj" />
+    <mesh name="mobile_aloha_visual_093" file="mobile-aloha-assets/mobile_aloha_visual_093.obj" />
+    <mesh name="mobile_aloha_visual_094" file="mobile-aloha-assets/mobile_aloha_visual_094.obj" />
+    <mesh name="mobile_aloha_visual_095" file="mobile-aloha-assets/mobile_aloha_visual_095.obj" />
+    <mesh name="mobile_aloha_visual_096" file="mobile-aloha-assets/mobile_aloha_visual_096.obj" />
+    <mesh name="mobile_aloha_visual_097" file="mobile-aloha-assets/mobile_aloha_visual_097.obj" />
+    <mesh name="mobile_aloha_visual_098" file="mobile-aloha-assets/mobile_aloha_visual_098.obj" />
+    <mesh name="mobile_aloha_visual_099" file="mobile-aloha-assets/mobile_aloha_visual_099.obj" />
+    <mesh name="mobile_aloha_visual_100" file="mobile-aloha-assets/mobile_aloha_visual_100.obj" />
+    <mesh name="mobile_aloha_visual_101" file="mobile-aloha-assets/mobile_aloha_visual_101.obj" />
+    <mesh name="mobile_aloha_visual_102" file="mobile-aloha-assets/mobile_aloha_visual_102.obj" />
+    <mesh name="mobile_aloha_visual_103" file="mobile-aloha-assets/mobile_aloha_visual_103.obj" />
+    <mesh name="mobile_aloha_visual_104" file="mobile-aloha-assets/mobile_aloha_visual_104.obj" />
+    <mesh name="mobile_aloha_visual_105" file="mobile-aloha-assets/mobile_aloha_visual_105.obj" />
+    <mesh name="mobile_aloha_visual_106" file="mobile-aloha-assets/mobile_aloha_visual_106.obj" />
+    <mesh name="mobile_aloha_visual_107" file="mobile-aloha-assets/mobile_aloha_visual_107.obj" />
+    <mesh name="mobile_aloha_visual_108" file="mobile-aloha-assets/mobile_aloha_visual_108.obj" />
+    <mesh name="mobile_aloha_visual_109" file="mobile-aloha-assets/mobile_aloha_visual_109.obj" />
+    <mesh name="mobile_aloha_visual_110" file="mobile-aloha-assets/mobile_aloha_visual_110.obj" />
+    <mesh name="mobile_aloha_visual_111" file="mobile-aloha-assets/mobile_aloha_visual_111.obj" />
+    <mesh name="mobile_aloha_visual_112" file="mobile-aloha-assets/mobile_aloha_visual_112.obj" />
+    <mesh name="mobile_aloha_visual_113" file="mobile-aloha-assets/mobile_aloha_visual_113.obj" />
+    <mesh name="mobile_aloha_visual_114" file="mobile-aloha-assets/mobile_aloha_visual_114.obj" />
+    <mesh name="mobile_aloha_visual_115" file="mobile-aloha-assets/mobile_aloha_visual_115.obj" />
+    <mesh name="mobile_aloha_visual_116" file="mobile-aloha-assets/mobile_aloha_visual_116.obj" />
+    <mesh name="mobile_aloha_visual_117" file="mobile-aloha-assets/mobile_aloha_visual_117.obj" />
+    <mesh name="mobile_aloha_visual_118" file="mobile-aloha-assets/mobile_aloha_visual_118.obj" />
+    <mesh name="mobile_aloha_visual_119" file="mobile-aloha-assets/mobile_aloha_visual_119.obj" />
+    <mesh name="mobile_aloha_visual_120" file="mobile-aloha-assets/mobile_aloha_visual_120.obj" />
+    <mesh name="mobile_aloha_visual_121" file="mobile-aloha-assets/mobile_aloha_visual_121.obj" />
+    <mesh name="mobile_aloha_visual_122" file="mobile-aloha-assets/mobile_aloha_visual_122.obj" />
+    <mesh name="mobile_aloha_visual_123" file="mobile-aloha-assets/mobile_aloha_visual_123.obj" />
+    <mesh name="mobile_aloha_visual_124" file="mobile-aloha-assets/mobile_aloha_visual_124.obj" />
+    <mesh name="mobile_aloha_visual_125" file="mobile-aloha-assets/mobile_aloha_visual_125.obj" />
+    <mesh name="mobile_aloha_visual_126" file="mobile-aloha-assets/mobile_aloha_visual_126.obj" />
+    <mesh name="mobile_aloha_visual_127" file="mobile-aloha-assets/mobile_aloha_visual_127.obj" />
+    <mesh name="mobile_aloha_visual_128" file="mobile-aloha-assets/mobile_aloha_visual_128.obj" />
+    <mesh name="mobile_aloha_visual_129" file="mobile-aloha-assets/mobile_aloha_visual_129.obj" />
+    <mesh name="mobile_aloha_visual_130" file="mobile-aloha-assets/mobile_aloha_visual_130.obj" />
+    <mesh name="mobile_aloha_visual_131" file="mobile-aloha-assets/mobile_aloha_visual_131.obj" />
+    <mesh name="mobile_aloha_visual_132" file="mobile-aloha-assets/mobile_aloha_visual_132.obj" />
+    <mesh name="mobile_aloha_visual_133" file="mobile-aloha-assets/mobile_aloha_visual_133.obj" />
+    <mesh name="mobile_aloha_visual_134" file="mobile-aloha-assets/mobile_aloha_visual_134.obj" />
+    <mesh name="mobile_aloha_visual_135" file="mobile-aloha-assets/mobile_aloha_visual_135.obj" />
+    <mesh name="mobile_aloha_visual_136" file="mobile-aloha-assets/mobile_aloha_visual_136.obj" />
+    <mesh name="mobile_aloha_visual_137" file="mobile-aloha-assets/mobile_aloha_visual_137.obj" />
+    <mesh name="mobile_aloha_visual_138" file="mobile-aloha-assets/mobile_aloha_visual_138.obj" />
+    <mesh name="mobile_aloha_visual_139" file="mobile-aloha-assets/mobile_aloha_visual_139.obj" />
+    <mesh name="mobile_aloha_visual_140" file="mobile-aloha-assets/mobile_aloha_visual_140.obj" />
+    <mesh name="mobile_aloha_visual_141" file="mobile-aloha-assets/mobile_aloha_visual_141.obj" />
+    <mesh name="mobile_aloha_visual_142" file="mobile-aloha-assets/mobile_aloha_visual_142.obj" />
+    <mesh name="mobile_aloha_visual_143" file="mobile-aloha-assets/mobile_aloha_visual_143.obj" />
+    <mesh name="mobile_aloha_visual_144" file="mobile-aloha-assets/mobile_aloha_visual_144.obj" />
+    <mesh name="mobile_aloha_visual_145" file="mobile-aloha-assets/mobile_aloha_visual_145.obj" />
+    <mesh name="mobile_aloha_visual_146" file="mobile-aloha-assets/mobile_aloha_visual_146.obj" />
+    <mesh name="mobile_aloha_visual_147" file="mobile-aloha-assets/mobile_aloha_visual_147.obj" />
+    <mesh name="mobile_aloha_visual_148" file="mobile-aloha-assets/mobile_aloha_visual_148.obj" />
+    <mesh name="mobile_aloha_visual_149" file="mobile-aloha-assets/mobile_aloha_visual_149.obj" />
+    <mesh name="mobile_aloha_visual_150" file="mobile-aloha-assets/mobile_aloha_visual_150.obj" />
+    <mesh name="mobile_aloha_visual_151" file="mobile-aloha-assets/mobile_aloha_visual_151.obj" />
+    <mesh name="mobile_aloha_visual_152" file="mobile-aloha-assets/mobile_aloha_visual_152.obj" />
+    <mesh name="mobile_aloha_visual_153" file="mobile-aloha-assets/mobile_aloha_visual_153.obj" />
+    <mesh name="mobile_aloha_visual_154" file="mobile-aloha-assets/mobile_aloha_visual_154.obj" />
+    <mesh name="mobile_aloha_visual_155" file="mobile-aloha-assets/mobile_aloha_visual_155.obj" />
+    <mesh name="mobile_aloha_visual_156" file="mobile-aloha-assets/mobile_aloha_visual_156.obj" />
+    <mesh name="mobile_aloha_visual_157" file="mobile-aloha-assets/mobile_aloha_visual_157.obj" />
+    <mesh name="mobile_aloha_visual_158" file="mobile-aloha-assets/mobile_aloha_visual_158.obj" />
+    <mesh name="mobile_aloha_visual_159" file="mobile-aloha-assets/mobile_aloha_visual_159.obj" />
+    <mesh name="mobile_aloha_visual_160" file="mobile-aloha-assets/mobile_aloha_visual_160.obj" />
+    <mesh name="mobile_aloha_visual_161" file="mobile-aloha-assets/mobile_aloha_visual_161.obj" />
+    <mesh name="mobile_aloha_visual_162" file="mobile-aloha-assets/mobile_aloha_visual_162.obj" />
+    <mesh name="mobile_aloha_visual_163" file="mobile-aloha-assets/mobile_aloha_visual_163.obj" />
+    <mesh name="mobile_aloha_visual_164" file="mobile-aloha-assets/mobile_aloha_visual_164.obj" />
+    <mesh name="mobile_aloha_visual_165" file="mobile-aloha-assets/mobile_aloha_visual_165.obj" />
+  </asset>
+  <worldbody>
+    <body name="parked_mobile_aloha" pos="-0.92 2.0 0.005" quat="0.7071067811865476 0 0 0.7071067811865476">
+      <inertial pos="0 0 0" mass="1" diaginertia="0.01 0.01 0.01" />
+      <geom name="mobile_aloha_visual_000" type="mesh" mesh="mobile_aloha_visual_000" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_joint" rgba="0.1176471 0.1294118 0.145098 1" />
+      <geom name="mobile_aloha_visual_001" type="mesh" mesh="mobile_aloha_visual_001" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_joint" rgba="0.1176471 0.1294118 0.145098 1" />
+      <geom name="mobile_aloha_visual_002" type="mesh" mesh="mobile_aloha_visual_002" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_arm" rgba="0.1882353 0.2078431 0.227451 1" />
+      <geom name="mobile_aloha_visual_003" type="mesh" mesh="mobile_aloha_visual_003" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_arm" rgba="0.1882353 0.2078431 0.227451 1" />
+      <geom name="mobile_aloha_visual_004" type="mesh" mesh="mobile_aloha_visual_004" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_joint" rgba="0.1176471 0.1294118 0.145098 1" />
+      <geom name="mobile_aloha_visual_005" type="mesh" mesh="mobile_aloha_visual_005" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_joint" rgba="0.1176471 0.1294118 0.145098 1" />
+      <geom name="mobile_aloha_visual_006" type="mesh" mesh="mobile_aloha_visual_006" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_joint" rgba="0.1176471 0.1294118 0.145098 1" />
+      <geom name="mobile_aloha_visual_007" type="mesh" mesh="mobile_aloha_visual_007" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_steel" rgba="0.654902 0.7058824 0.7411765 1" />
+      <geom name="mobile_aloha_visual_008" type="mesh" mesh="mobile_aloha_visual_008" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_steel" rgba="0.654902 0.7058824 0.7411765 1" />
+      <geom name="mobile_aloha_visual_009" type="mesh" mesh="mobile_aloha_visual_009" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_joint" rgba="0.1176471 0.1294118 0.145098 1" />
+      <geom name="mobile_aloha_visual_010" type="mesh" mesh="mobile_aloha_visual_010" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_joint" rgba="0.1176471 0.1294118 0.145098 1" />
+      <geom name="mobile_aloha_visual_011" type="mesh" mesh="mobile_aloha_visual_011" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_arm" rgba="0.1882353 0.2078431 0.227451 1" />
+      <geom name="mobile_aloha_visual_012" type="mesh" mesh="mobile_aloha_visual_012" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_arm" rgba="0.1882353 0.2078431 0.227451 1" />
+      <geom name="mobile_aloha_visual_013" type="mesh" mesh="mobile_aloha_visual_013" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_joint" rgba="0.1176471 0.1294118 0.145098 1" />
+      <geom name="mobile_aloha_visual_014" type="mesh" mesh="mobile_aloha_visual_014" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_joint" rgba="0.1176471 0.1294118 0.145098 1" />
+      <geom name="mobile_aloha_visual_015" type="mesh" mesh="mobile_aloha_visual_015" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_joint" rgba="0.1176471 0.1294118 0.145098 1" />
+      <geom name="mobile_aloha_visual_016" type="mesh" mesh="mobile_aloha_visual_016" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_steel" rgba="0.654902 0.7058824 0.7411765 1" />
+      <geom name="mobile_aloha_visual_017" type="mesh" mesh="mobile_aloha_visual_017" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_steel" rgba="0.654902 0.7058824 0.7411765 1" />
+      <geom name="mobile_aloha_visual_018" type="mesh" mesh="mobile_aloha_visual_018" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_joint" rgba="0.1176471 0.1294118 0.145098 1" />
+      <geom name="mobile_aloha_visual_019" type="mesh" mesh="mobile_aloha_visual_019" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_joint" rgba="0.1176471 0.1294118 0.145098 1" />
+      <geom name="mobile_aloha_visual_020" type="mesh" mesh="mobile_aloha_visual_020" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_arm" rgba="0.1882353 0.2078431 0.227451 1" />
+      <geom name="mobile_aloha_visual_021" type="mesh" mesh="mobile_aloha_visual_021" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_arm" rgba="0.1882353 0.2078431 0.227451 1" />
+      <geom name="mobile_aloha_visual_022" type="mesh" mesh="mobile_aloha_visual_022" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_joint" rgba="0.1176471 0.1294118 0.145098 1" />
+      <geom name="mobile_aloha_visual_023" type="mesh" mesh="mobile_aloha_visual_023" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_joint" rgba="0.1176471 0.1294118 0.145098 1" />
+      <geom name="mobile_aloha_visual_024" type="mesh" mesh="mobile_aloha_visual_024" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_joint" rgba="0.1176471 0.1294118 0.145098 1" />
+      <geom name="mobile_aloha_visual_025" type="mesh" mesh="mobile_aloha_visual_025" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_steel" rgba="0.654902 0.7058824 0.7411765 1" />
+      <geom name="mobile_aloha_visual_026" type="mesh" mesh="mobile_aloha_visual_026" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_steel" rgba="0.654902 0.7058824 0.7411765 1" />
+      <geom name="mobile_aloha_visual_027" type="mesh" mesh="mobile_aloha_visual_027" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_joint" rgba="0.1176471 0.1294118 0.145098 1" />
+      <geom name="mobile_aloha_visual_028" type="mesh" mesh="mobile_aloha_visual_028" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_joint" rgba="0.1176471 0.1294118 0.145098 1" />
+      <geom name="mobile_aloha_visual_029" type="mesh" mesh="mobile_aloha_visual_029" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_arm" rgba="0.1882353 0.2078431 0.227451 1" />
+      <geom name="mobile_aloha_visual_030" type="mesh" mesh="mobile_aloha_visual_030" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_arm" rgba="0.1882353 0.2078431 0.227451 1" />
+      <geom name="mobile_aloha_visual_031" type="mesh" mesh="mobile_aloha_visual_031" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_joint" rgba="0.1176471 0.1294118 0.145098 1" />
+      <geom name="mobile_aloha_visual_032" type="mesh" mesh="mobile_aloha_visual_032" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_joint" rgba="0.1176471 0.1294118 0.145098 1" />
+      <geom name="mobile_aloha_visual_033" type="mesh" mesh="mobile_aloha_visual_033" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_joint" rgba="0.1176471 0.1294118 0.145098 1" />
+      <geom name="mobile_aloha_visual_034" type="mesh" mesh="mobile_aloha_visual_034" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_steel" rgba="0.654902 0.7058824 0.7411765 1" />
+      <geom name="mobile_aloha_visual_035" type="mesh" mesh="mobile_aloha_visual_035" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_steel" rgba="0.654902 0.7058824 0.7411765 1" />
+      <geom name="mobile_aloha_visual_036" type="mesh" mesh="mobile_aloha_visual_036" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_frame" rgba="0.1686275 0.1843137 0.2 1" />
+      <geom name="mobile_aloha_visual_037" type="mesh" mesh="mobile_aloha_visual_037" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_038" type="mesh" mesh="mobile_aloha_visual_038" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_frame" rgba="0.1686275 0.1843137 0.2 1" />
+      <geom name="mobile_aloha_visual_039" type="mesh" mesh="mobile_aloha_visual_039" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_040" type="mesh" mesh="mobile_aloha_visual_040" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_041" type="mesh" mesh="mobile_aloha_visual_041" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_042" type="mesh" mesh="mobile_aloha_visual_042" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_043" type="mesh" mesh="mobile_aloha_visual_043" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_044" type="mesh" mesh="mobile_aloha_visual_044" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_045" type="mesh" mesh="mobile_aloha_visual_045" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_046" type="mesh" mesh="mobile_aloha_visual_046" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_047" type="mesh" mesh="mobile_aloha_visual_047" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_048" type="mesh" mesh="mobile_aloha_visual_048" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_049" type="mesh" mesh="mobile_aloha_visual_049" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_050" type="mesh" mesh="mobile_aloha_visual_050" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_051" type="mesh" mesh="mobile_aloha_visual_051" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_052" type="mesh" mesh="mobile_aloha_visual_052" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_053" type="mesh" mesh="mobile_aloha_visual_053" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_054" type="mesh" mesh="mobile_aloha_visual_054" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_055" type="mesh" mesh="mobile_aloha_visual_055" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_056" type="mesh" mesh="mobile_aloha_visual_056" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_057" type="mesh" mesh="mobile_aloha_visual_057" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_058" type="mesh" mesh="mobile_aloha_visual_058" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_059" type="mesh" mesh="mobile_aloha_visual_059" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_060" type="mesh" mesh="mobile_aloha_visual_060" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_061" type="mesh" mesh="mobile_aloha_visual_061" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_062" type="mesh" mesh="mobile_aloha_visual_062" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_063" type="mesh" mesh="mobile_aloha_visual_063" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_064" type="mesh" mesh="mobile_aloha_visual_064" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_065" type="mesh" mesh="mobile_aloha_visual_065" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_066" type="mesh" mesh="mobile_aloha_visual_066" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_067" type="mesh" mesh="mobile_aloha_visual_067" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_068" type="mesh" mesh="mobile_aloha_visual_068" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_069" type="mesh" mesh="mobile_aloha_visual_069" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_070" type="mesh" mesh="mobile_aloha_visual_070" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_071" type="mesh" mesh="mobile_aloha_visual_071" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_072" type="mesh" mesh="mobile_aloha_visual_072" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_073" type="mesh" mesh="mobile_aloha_visual_073" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_rubber" rgba="0.06666667 0.0745098 0.08627451 1" />
+      <geom name="mobile_aloha_visual_074" type="mesh" mesh="mobile_aloha_visual_074" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_075" type="mesh" mesh="mobile_aloha_visual_075" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_076" type="mesh" mesh="mobile_aloha_visual_076" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_077" type="mesh" mesh="mobile_aloha_visual_077" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_rubber" rgba="0.06666667 0.0745098 0.08627451 1" />
+      <geom name="mobile_aloha_visual_078" type="mesh" mesh="mobile_aloha_visual_078" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_rubber" rgba="0.06666667 0.0745098 0.08627451 1" />
+      <geom name="mobile_aloha_visual_079" type="mesh" mesh="mobile_aloha_visual_079" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_080" type="mesh" mesh="mobile_aloha_visual_080" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_081" type="mesh" mesh="mobile_aloha_visual_081" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_082" type="mesh" mesh="mobile_aloha_visual_082" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_rubber" rgba="0.06666667 0.0745098 0.08627451 1" />
+      <geom name="mobile_aloha_visual_083" type="mesh" mesh="mobile_aloha_visual_083" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_084" type="mesh" mesh="mobile_aloha_visual_084" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_085" type="mesh" mesh="mobile_aloha_visual_085" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_rubber" rgba="0.06666667 0.0745098 0.08627451 1" />
+      <geom name="mobile_aloha_visual_086" type="mesh" mesh="mobile_aloha_visual_086" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_rubber" rgba="0.06666667 0.0745098 0.08627451 1" />
+      <geom name="mobile_aloha_visual_087" type="mesh" mesh="mobile_aloha_visual_087" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_088" type="mesh" mesh="mobile_aloha_visual_088" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_089" type="mesh" mesh="mobile_aloha_visual_089" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_090" type="mesh" mesh="mobile_aloha_visual_090" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_091" type="mesh" mesh="mobile_aloha_visual_091" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_092" type="mesh" mesh="mobile_aloha_visual_092" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_093" type="mesh" mesh="mobile_aloha_visual_093" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_094" type="mesh" mesh="mobile_aloha_visual_094" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_095" type="mesh" mesh="mobile_aloha_visual_095" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_096" type="mesh" mesh="mobile_aloha_visual_096" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_097" type="mesh" mesh="mobile_aloha_visual_097" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_098" type="mesh" mesh="mobile_aloha_visual_098" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_099" type="mesh" mesh="mobile_aloha_visual_099" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_100" type="mesh" mesh="mobile_aloha_visual_100" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_101" type="mesh" mesh="mobile_aloha_visual_101" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_102" type="mesh" mesh="mobile_aloha_visual_102" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_103" type="mesh" mesh="mobile_aloha_visual_103" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_104" type="mesh" mesh="mobile_aloha_visual_104" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_105" type="mesh" mesh="mobile_aloha_visual_105" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_106" type="mesh" mesh="mobile_aloha_visual_106" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_107" type="mesh" mesh="mobile_aloha_visual_107" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_108" type="mesh" mesh="mobile_aloha_visual_108" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_109" type="mesh" mesh="mobile_aloha_visual_109" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_110" type="mesh" mesh="mobile_aloha_visual_110" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_111" type="mesh" mesh="mobile_aloha_visual_111" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_112" type="mesh" mesh="mobile_aloha_visual_112" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_113" type="mesh" mesh="mobile_aloha_visual_113" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_114" type="mesh" mesh="mobile_aloha_visual_114" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_115" type="mesh" mesh="mobile_aloha_visual_115" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_116" type="mesh" mesh="mobile_aloha_visual_116" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_117" type="mesh" mesh="mobile_aloha_visual_117" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_118" type="mesh" mesh="mobile_aloha_visual_118" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_119" type="mesh" mesh="mobile_aloha_visual_119" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_120" type="mesh" mesh="mobile_aloha_visual_120" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_121" type="mesh" mesh="mobile_aloha_visual_121" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_122" type="mesh" mesh="mobile_aloha_visual_122" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_123" type="mesh" mesh="mobile_aloha_visual_123" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_124" type="mesh" mesh="mobile_aloha_visual_124" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_125" type="mesh" mesh="mobile_aloha_visual_125" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_126" type="mesh" mesh="mobile_aloha_visual_126" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_127" type="mesh" mesh="mobile_aloha_visual_127" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_rubber" rgba="0.06666667 0.0745098 0.08627451 1" />
+      <geom name="mobile_aloha_visual_128" type="mesh" mesh="mobile_aloha_visual_128" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_129" type="mesh" mesh="mobile_aloha_visual_129" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_130" type="mesh" mesh="mobile_aloha_visual_130" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_rubber" rgba="0.06666667 0.0745098 0.08627451 1" />
+      <geom name="mobile_aloha_visual_131" type="mesh" mesh="mobile_aloha_visual_131" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_132" type="mesh" mesh="mobile_aloha_visual_132" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_133" type="mesh" mesh="mobile_aloha_visual_133" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_rubber" rgba="0.06666667 0.0745098 0.08627451 1" />
+      <geom name="mobile_aloha_visual_134" type="mesh" mesh="mobile_aloha_visual_134" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_135" type="mesh" mesh="mobile_aloha_visual_135" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_136" type="mesh" mesh="mobile_aloha_visual_136" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_137" type="mesh" mesh="mobile_aloha_visual_137" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_138" type="mesh" mesh="mobile_aloha_visual_138" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_139" type="mesh" mesh="mobile_aloha_visual_139" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_140" type="mesh" mesh="mobile_aloha_visual_140" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_141" type="mesh" mesh="mobile_aloha_visual_141" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_142" type="mesh" mesh="mobile_aloha_visual_142" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_143" type="mesh" mesh="mobile_aloha_visual_143" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_144" type="mesh" mesh="mobile_aloha_visual_144" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_145" type="mesh" mesh="mobile_aloha_visual_145" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_146" type="mesh" mesh="mobile_aloha_visual_146" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_147" type="mesh" mesh="mobile_aloha_visual_147" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_148" type="mesh" mesh="mobile_aloha_visual_148" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_149" type="mesh" mesh="mobile_aloha_visual_149" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_150" type="mesh" mesh="mobile_aloha_visual_150" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_151" type="mesh" mesh="mobile_aloha_visual_151" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_152" type="mesh" mesh="mobile_aloha_visual_152" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_153" type="mesh" mesh="mobile_aloha_visual_153" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_154" type="mesh" mesh="mobile_aloha_visual_154" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_155" type="mesh" mesh="mobile_aloha_visual_155" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_panel" rgba="0.8705882 0.8901961 0.9019608 1" />
+      <geom name="mobile_aloha_visual_156" type="mesh" mesh="mobile_aloha_visual_156" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_steel" rgba="0.654902 0.7058824 0.7411765 1" />
+      <geom name="mobile_aloha_visual_157" type="mesh" mesh="mobile_aloha_visual_157" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_rubber" rgba="0.06666667 0.0745098 0.08627451 1" />
+      <geom name="mobile_aloha_visual_158" type="mesh" mesh="mobile_aloha_visual_158" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_steel" rgba="0.654902 0.7058824 0.7411765 1" />
+      <geom name="mobile_aloha_visual_159" type="mesh" mesh="mobile_aloha_visual_159" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_rubber" rgba="0.06666667 0.0745098 0.08627451 1" />
+      <geom name="mobile_aloha_visual_160" type="mesh" mesh="mobile_aloha_visual_160" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_steel" rgba="0.654902 0.7058824 0.7411765 1" />
+      <geom name="mobile_aloha_visual_161" type="mesh" mesh="mobile_aloha_visual_161" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_rubber" rgba="0.06666667 0.0745098 0.08627451 1" />
+      <geom name="mobile_aloha_visual_162" type="mesh" mesh="mobile_aloha_visual_162" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_steel" rgba="0.654902 0.7058824 0.7411765 1" />
+      <geom name="mobile_aloha_visual_163" type="mesh" mesh="mobile_aloha_visual_163" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_rubber" rgba="0.06666667 0.0745098 0.08627451 1" />
+      <geom name="mobile_aloha_visual_164" type="mesh" mesh="mobile_aloha_visual_164" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_rubber" rgba="0.06666667 0.0745098 0.08627451 1" />
+      <geom name="mobile_aloha_visual_165" type="mesh" mesh="mobile_aloha_visual_165" group="1" contype="0" conaffinity="0" mass="0" material="mobile_aloha_finish_rubber" rgba="0.06666667 0.0745098 0.08627451 1" />
+    </body>
+  </worldbody>
+</mujoco>

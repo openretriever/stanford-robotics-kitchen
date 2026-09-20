@@ -1,0 +1,52 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "retriever-src-kitchen"
+version = "0.1.0"
+description = "SRC kitchen scene, robot assets, and simulation examples for Retriever"
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+license = { text = "Private project; see LICENSE and THIRD_PARTY.md" }
+dependencies = []
+
+[project.optional-dependencies]
+simulation = [
+  "mujoco==3.3.1", "numpy==2.2.5", "mink==0.0.13", "quadprog==0.1.13",
+  "Pillow==12.3.0", "trimesh==4.12.2",
+]
+preview = [
+  "retriever-src-kitchen[simulation]", "retriever-core==0.0.4",
+  "mjviser==0.0.14", "viser==1.1.0", "imageio==2.37.4", "imageio-ffmpeg==0.6.0",
+]
+assets = ["retriever-src-kitchen[preview]", "yourdfpy==0.0.60", "pycollada==0.9.3"]
+test = ["pytest>=8,<10", "build>=1,<2"]
+
+[project.scripts]
+src-kitchen = "retriever_src_kitchen.cli:main"
+
+[tool.retriever.module]
+module = "retriever_src_kitchen"
+min_retriever_version = "0.0.4"
+
+[tool.retriever.module.exports]
+scene_root = "retriever_src_kitchen:scene_root"
+describe_scene = "retriever_src_kitchen:describe_scene"
+create_scene = "retriever_src_kitchen:create_scene"
+create_demo = "retriever_src_kitchen:create_demo"
+harness_config = "retriever_src_kitchen:harness_config"
+preview = "retriever_src_kitchen:preview"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/retriever_src_kitchen"]
+
+[tool.hatch.build.targets.sdist]
+include = ["/src", "/tests", "/tools", "/examples", "/README.md", "/LICENSE", "/THIRD_PARTY.md", "/pyproject.toml", "/uv.lock"]
+
+[tool.uv]
+override-dependencies = ["mujoco==3.3.1", "mink==0.0.13"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["simulation: constructs the native MuJoCo scene"]

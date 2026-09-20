@@ -1,0 +1,12 @@
+mujoco==3.3.1
+mjviser==0.0.14
+viser==1.1.0
+trimesh==4.12.2
+numpy==2.2.5
+imageio==2.37.4
+imageio-ffmpeg==0.6.0
+Pillow==12.3.0
+robosuite==1.5.2
+opencv-python>=4.10,<5
+mink==0.0.13
+quadprog==0.1.13

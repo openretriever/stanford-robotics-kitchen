@@ -1,0 +1,4 @@
+# mjviser 0.0.14 declares MuJoCo >=3.6; this scene is tested on 3.3.1.
+# Keep this explicit until the combined stack is validated on a newer release.
+mujoco==3.3.1
+mink==0.0.13

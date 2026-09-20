@@ -1,0 +1,55 @@
+{
+  "source": "kitchen-realistic.blend",
+  "units": "meters",
+  "up_axis": "+Z",
+  "lighting": "Static diffuse direct + indirect; AgX display-referred textures",
+  "collision_source": "kitchen.xml",
+  "groups": [
+    {
+      "name": "floor",
+      "mesh": "floor.obj",
+      "texture": "floor.png",
+      "resolution": 2048,
+      "metallic": 0.0,
+      "roughness": 0.75,
+      "triangles": 1748
+    },
+    {
+      "name": "walls",
+      "mesh": "walls.obj",
+      "texture": "walls.png",
+      "resolution": 1024,
+      "metallic": 0.0,
+      "roughness": 0.85,
+      "triangles": 376
+    },
+    {
+      "name": "metal",
+      "mesh": "metal.obj",
+      "texture": "metal.png",
+      "resolution": 2048,
+      "metallic": 0.85,
+      "roughness": 0.32,
+      "triangles": 165884
+    },
+    {
+      "name": "details",
+      "mesh": "details.obj",
+      "texture": "details.png",
+      "resolution": 1024,
+      "metallic": 0.12,
+      "roughness": 0.45,
+      "triangles": 56852
+    },
+    {
+      "name": "cabinetry",
+      "mesh": "cabinetry.obj",
+      "texture": "cabinetry.png",
+      "resolution": 2048,
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "triangles": 35868
+    }
+  ],
+  "limitations": "Rebake after moving architecture or changing room lighting; robots remain dynamic"
+}

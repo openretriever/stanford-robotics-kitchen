@@ -1,0 +1,11 @@
+schema_version = "retriever.plugins/1"
+
+[[plugins]]
+id = "src-kitchen"
+entrypoint = "retriever_kitchen_sim:run_service"
+config = { source_root = "REPLACE_WITH_INSTALLED_SCENE_PATH", expected_source_digest = "REPLACE_WITH_REVIEWED_SHA256" }
+
+[run]
+provider = "src-kitchen"
+capability = "retriever.runs"
+schema = "retriever.runs/1"
