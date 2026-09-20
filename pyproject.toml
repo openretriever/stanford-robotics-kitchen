@@ -44,7 +44,7 @@ preview = "retriever_src_kitchen:preview"
 packages = ["src/retriever_src_kitchen"]
 
 [tool.hatch.build.targets.sdist]
-include = ["/src", "/tests", "/tools", "/examples", "/README.md", "/LICENSE", "/THIRD_PARTY.md", "/pyproject.toml", "/uv.lock"]
+include = ["/src", "/tests", "/tools", "/examples", "/docs", "/README.md", "/LICENSE", "/THIRD_PARTY.md", "/pyproject.toml", "/uv.lock"]
 
 [tool.uv]
 override-dependencies = ["mujoco==3.3.1", "mink==0.0.13"]
