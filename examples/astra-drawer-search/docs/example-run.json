@@ -1,0 +1,212 @@
+{
+  "task": "Find the reddish-brown spice jar hidden in one of the kitchen drawers.",
+  "model": "gpt-6-astra",
+  "roles_on_astra": [
+    "planner",
+    "belief"
+  ],
+  "memory": "structured, model-free (memory.py)",
+  "candidates": [
+    "range_drawers_drawer0_0",
+    "range_drawers_drawer0_1",
+    "range_drawers_drawer0_2",
+    "range_drawers_drawer0_3",
+    "range_drawers_drawer1_0",
+    "range_drawers_drawer1_1",
+    "range_drawers_drawer1_2",
+    "range_drawers_drawer1_3"
+  ],
+  "unreachable": [
+    "beverage_drawers_drawer0_0",
+    "beverage_drawers_drawer0_1",
+    "beverage_drawers_drawer0_2",
+    "beverage_drawers_drawer0_3"
+  ],
+  "openable_by_primitive": [
+    "range_drawers_drawer0_1",
+    "range_drawers_drawer0_2",
+    "range_drawers_drawer0_3",
+    "range_drawers_drawer1_2",
+    "range_drawers_drawer1_3"
+  ],
+  "ground_truth": {
+    "range_drawers_drawer0_3": "paprika",
+    "range_drawers_drawer0_2": "herb seasoning"
+  },
+  "decisions": [
+    {
+      "seq": 1,
+      "action": "open_drawer",
+      "drawer": "range_drawers_drawer0_0",
+      "rationale": "No drawers have been inspected; open an untried drawer to look for the reddish-brown spice jar.",
+      "found_item": ""
+    },
+    {
+      "seq": 2,
+      "action": "open_drawer",
+      "drawer": "range_drawers_drawer0_1",
+      "rationale": "Inspect an untried drawer for the spice jar; the attempted drawer revealed no identifiable contents.",
+      "found_item": ""
+    },
+    {
+      "seq": 3,
+      "action": "open_drawer",
+      "drawer": "range_drawers_drawer0_2",
+      "rationale": "This drawer is untried and may contain the target; the open drawer is empty and the previously failed drawer has obscured contents.",
+      "found_item": ""
+    },
+    {
+      "seq": 4,
+      "action": "open_drawer",
+      "drawer": "range_drawers_drawer0_3",
+      "rationale": "This drawer is untried and unobserved; inspect it for the reddish-brown spice jar rather than reopen an empty drawer.",
+      "found_item": ""
+    },
+    {
+      "seq": 5,
+      "action": "open_drawer",
+      "drawer": "range_drawers_drawer0_3",
+      "rationale": "The partially visible reddish-brown cylindrical object could be the spice jar, but it is not yet identified. Retry this drawer, which has failed only once, to get a clearer view.",
+      "found_item": ""
+    },
+    {
+      "seq": 6,
+      "action": "report_found",
+      "drawer": "range_drawers_drawer0_3",
+      "rationale": "The trusted observation record identifies a dark reddish-brown cylindrical jar inside this drawer, despite the opening verification failures.",
+      "found_item": "reddish-brown spice jar"
+    }
+  ],
+  "memory_state": {
+    "records": {
+      "range_drawers_drawer0_0": {
+        "drawer": "range_drawers_drawer0_0",
+        "attempts": 1,
+        "opened": false,
+        "max_opening_m": 0.06716115942850429,
+        "contents": "The narrow opening is dark and obscured; no contents can be identified, and emptiness cannot be confirmed.",
+        "confidence": 0.94,
+        "failures": [
+          {
+            "step": 651,
+            "reason": "Drawer target not reached"
+          }
+        ],
+        "evidence_steps": [
+          651,
+          1
+        ]
+      },
+      "range_drawers_drawer0_1": {
+        "drawer": "range_drawers_drawer0_1",
+        "attempts": 1,
+        "opened": true,
+        "max_opening_m": 0.29935302402775943,
+        "contents": "empty",
+        "confidence": 0.94,
+        "failures": [],
+        "evidence_steps": [
+          1326,
+          2
+        ]
+      },
+      "range_drawers_drawer0_2": {
+        "drawer": "range_drawers_drawer0_2",
+        "attempts": 1,
+        "opened": false,
+        "max_opening_m": 0.22916568916680785,
+        "contents": "empty",
+        "confidence": 0.88,
+        "failures": [
+          {
+            "step": 1977,
+            "reason": "Drawer target not reached"
+          }
+        ],
+        "evidence_steps": [
+          1977,
+          3
+        ]
+      },
+      "range_drawers_drawer0_3": {
+        "drawer": "range_drawers_drawer0_3",
+        "attempts": 2,
+        "opened": false,
+        "max_opening_m": 0.37984964397402005,
+        "contents": "A dark reddish-brown cylindrical jar.",
+        "confidence": 0.94,
+        "failures": [
+          {
+            "step": 2628,
+            "reason": "Drawer target not reached"
+          },
+          {
+            "step": 3303,
+            "reason": "Drawer opening or finger contact verification failed"
+          }
+        ],
+        "evidence_steps": [
+          2628,
+          4,
+          3303,
+          5
+        ]
+      }
+    },
+    "subgoals": [
+      "opened range_drawers_drawer0_1"
+    ],
+    "repeated_visits": 0,
+    "unsupported_actions": 0,
+    "recovery_actions": 1
+  },
+  "score": {
+    "targets": [
+      {
+        "drawer": "range_drawers_drawer0_3",
+        "truth": "paprika",
+        "opened": false,
+        "max_opening_m": 0.3798,
+        "hypothesis": "A dark reddish-brown cylindrical jar.",
+        "colour_matched": true,
+        "named_product": false
+      },
+      {
+        "drawer": "range_drawers_drawer0_2",
+        "truth": "herb seasoning",
+        "opened": false,
+        "max_opening_m": 0.2292,
+        "hypothesis": "empty",
+        "colour_matched": false,
+        "named_product": false
+      }
+    ],
+    "colour_matched": 1,
+    "named_product": 0,
+    "of": 2
+  },
+  "cost": {
+    "by_role": {
+      "planner": {
+        "calls": 6,
+        "input_tokens": 3802,
+        "output_tokens": 392,
+        "usd": 0.067125,
+        "latency_s": 16.57042908668518
+      },
+      "belief": {
+        "calls": 5,
+        "input_tokens": 2755,
+        "output_tokens": 692,
+        "usd": 0.0690375,
+        "latency_s": 23.809531211853027
+      }
+    },
+    "total_calls": 11,
+    "total_usd": 0.1362,
+    "budget_usd": 1.2,
+    "max_calls": 16
+  },
+  "wall_time_s": 230.0,
+  "sim_steps": 3303
+}

@@ -1,0 +1,77 @@
+{
+  "Panda": {
+    "glb": "panda.glb",
+    "xml": "panda.xml",
+    "qpos": [
+      0.0,
+      0.19634954084936207,
+      0.0,
+      -2.617993877991494,
+      0.0,
+      2.941592653589793,
+      0.7853981633974483,
+      0.0,
+      0.0
+    ],
+    "source": "robosuite installed robot assets",
+    "mount_height": 0.76,
+    "preview_only": true
+  },
+  "UR5e": {
+    "glb": "ur5e.glb",
+    "xml": "ur5e.xml",
+    "qpos": [
+      -0.47,
+      -1.735,
+      2.48,
+      -2.275,
+      -1.59,
+      -1.991,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "source": "robosuite installed robot assets",
+    "mount_height": 0.76,
+    "preview_only": true
+  },
+  "Tiago": {
+    "glb": "tiago.glb",
+    "xml": "tiago.xml",
+    "qpos": [
+      0.1,
+      0.0,
+      0.0,
+      0.0,
+      -0.9,
+      1.45,
+      1.7,
+      -1.5,
+      0.5,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.9,
+      1.45,
+      1.7,
+      -1.5,
+      0.5,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "source": "robosuite installed robot assets",
+    "mount_height": 0.0,
+    "preview_only": true
+  }
+}

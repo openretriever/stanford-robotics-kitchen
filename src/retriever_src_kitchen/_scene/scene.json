@@ -1,0 +1,16 @@
+{
+  "schema": "retriever.src-kitchen/1",
+  "name": "SRC Kitchen",
+  "version": "0.1.0",
+  "units": "meters",
+  "up_axis": "+Z",
+  "scale": "Estimated reconstruction, not a surveyed digital twin",
+  "physics": "MuJoCo",
+  "controlled_robot": "Panda",
+  "parked_robot": {"name": "Mobile ALOHA", "variant": "AgileX public simulation model", "position": [-0.92, 2.0, 0.005], "yaw_degrees": 90, "pose": "stove-facing with folded leader arms", "visual_only": true},
+  "cooking_station": {"pan_position": [-1.10, 2.76, 0.903], "visual_only": true},
+  "drawers": {"kitchen": 12, "tabletop_organizer": 4},
+  "demo_tasks": ["search", "drawer", "cup", "seasoning"],
+  "hardware_access": false,
+  "publication_status": "private; asset and branding review required"
+}
