@@ -19,14 +19,14 @@ Planner ---> Kitchen ---> Belief ---> Memory ---+
 ## Set up
 
 `retriever-core` is on PyPI and conda-forge. The kitchen scene comes from
-`retriever-src-kitchen`, which is not published -- install it from its own
+`stanford-robotics-kitchen`, which is privately published -- install it from its own
 checkout (a built wheel under its `dist/`, or `uv pip install -e <path>`).
 
 ```sh
 uv venv -p 3.11 .venv
 uv pip install --python .venv/bin/python 'retriever-core[dora,demo]'
 uv pip install --python .venv/bin/python --override <(printf 'mujoco==3.3.1\nmink==0.0.13\n') \
-    'retriever-src-kitchen[preview] @ file:///path/to/src-kitchen/dist/retriever_src_kitchen-0.1.0-py3-none-any.whl'
+    'stanford-robotics-kitchen[preview] @ file:///path/to/stanford-robotics-kitchen/dist/stanford_robotics_kitchen-0.2.0-py3-none-any.whl'
 ```
 
 `MUJOCO_GL=cgl` is required on macOS (`egl` is Linux-only). The pipeline runs on

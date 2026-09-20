@@ -27,8 +27,8 @@ Git LFS before installation:
 ```sh
 git lfs pull
 uv sync --extra preview --extra test
-uv run src-kitchen verify
-uv run src-kitchen preview --port 8105 --viewer-port 8106
+uv run stanford-robotics-kitchen verify
+uv run stanford-robotics-kitchen preview --port 8105 --viewer-port 8106
 ```
 
 Open the printed loopback URL. The demo begins paused. Ctrl-C stops its HTTP
@@ -67,12 +67,29 @@ the import search path and reject known source-module conflicts.
 
 `pyproject.toml` declares `[tool.retriever.module]` with these lazy exports:
 `scene_root`, `describe_scene`, `create_scene`, `create_demo`, `harness_config`,
-and `preview`. Loading exports does not start simulation, open sockets, download
-assets, or acquire hardware. Tests exercise the installed Hub manifest loader.
+`describe_pipeline`, `pipeline`, and `preview`. Loading exports does not start
+simulation, open sockets, download assets, or acquire hardware. Tests exercise
+the installed Hub manifest loader.
 
-This is Hub-compatible packaging, not a published Hub registration. No remote
-repository, public package, or automatic dependency-discovery integration is
-created. Install this trusted package explicitly and pin its reviewed version.
+The `pipeline` export is a lazy builder for the existing five-Flow execution
+graph. It constructs a paused MuJoCo runtime but does not start a clock, viewer,
+HTTP server, model request, or hardware connection:
+
+```python
+from retriever import hub
+
+build = hub.use("openretriever/stanford-robotics-kitchen:pipeline")
+pipeline = build(task="search")
+
+print(pipeline.validate())
+pipeline.kitchen_runtime.controls.set_paused(False)
+pipeline.step(dt=0.02)
+pipeline.close_stepper()
+```
+
+Use `hub.use("openretriever/stanford-robotics-kitchen:describe_pipeline")()` to inspect the
+nodes and edges without loading Retriever, MuJoCo, or NumPy. The repository is
+private; install it explicitly and pin the reviewed release or commit.
 
 ## Harness Integration
 
@@ -104,7 +121,7 @@ uv run python tools/check_repository.py
 uv build
 ```
 
-`src-kitchen verify` checks the packaged inventory, including source files and
+`stanford-robotics-kitchen verify` checks the packaged inventory, including source files and
 asset hashes. It does not certify physical behavior, license rights, or native
 binary identity. Native tests construct the scene and exercise drawer motion.
 

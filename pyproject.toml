@@ -3,8 +3,8 @@ requires = ["hatchling>=1.27,<2"]
 build-backend = "hatchling.build"
 
 [project]
-name = "retriever-src-kitchen"
-version = "0.1.0"
+name = "stanford-robotics-kitchen"
+version = "0.2.0"
 description = "SRC kitchen scene, robot assets, and simulation examples for Retriever"
 readme = "README.md"
 requires-python = ">=3.11,<3.12"
@@ -17,14 +17,14 @@ simulation = [
   "Pillow==12.3.0", "trimesh==4.12.2",
 ]
 preview = [
-  "retriever-src-kitchen[simulation]", "retriever-core==0.0.4",
+  "stanford-robotics-kitchen[simulation]", "retriever-core==0.0.4",
   "mjviser==0.0.14", "viser==1.1.0", "imageio==2.37.4", "imageio-ffmpeg==0.6.0",
 ]
-assets = ["retriever-src-kitchen[preview]", "yourdfpy==0.0.60", "pycollada==0.9.3"]
+assets = ["stanford-robotics-kitchen[preview]", "yourdfpy==0.0.60", "pycollada==0.9.3"]
 test = ["pytest>=8,<10", "build>=1,<2"]
 
 [project.scripts]
-src-kitchen = "retriever_src_kitchen.cli:main"
+stanford-robotics-kitchen = "retriever_src_kitchen.cli:main"
 
 [tool.retriever.module]
 module = "retriever_src_kitchen"
@@ -35,6 +35,8 @@ scene_root = "retriever_src_kitchen:scene_root"
 describe_scene = "retriever_src_kitchen:describe_scene"
 create_scene = "retriever_src_kitchen:create_scene"
 create_demo = "retriever_src_kitchen:create_demo"
+describe_pipeline = "retriever_src_kitchen:describe_pipeline"
+pipeline = "retriever_src_kitchen:create_pipeline"
 harness_config = "retriever_src_kitchen:harness_config"
 preview = "retriever_src_kitchen:preview"
 
