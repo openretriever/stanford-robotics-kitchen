@@ -34,7 +34,7 @@ from retriever.flow import Flow, Latest, Pipeline, Rate, Trigger, io
 import astra as astra_mod
 import kitchen
 from recorder import Recorder
-from memory import DrawerMemory
+from memory import DrawerMemory, Transcript
 
 PLANNER_SYSTEM = """You search a kitchen for named items hidden in drawers, using only what you see.
 
@@ -174,6 +174,7 @@ class KitchenFlow(Flow[Command, Observation]):
 
     world: object = None
     memory: object = None
+    transcript: object = None
     recorder: object = None
     name: str = "Kitchen"
     step_count: int = 0
@@ -194,6 +195,8 @@ class KitchenFlow(Flow[Command, Observation]):
                                geometry_json=json.dumps(self.world.geometry()))
 
         self.memory.note_attempt(drawer)
+        if self.transcript is not None:
+            self.transcript.note_decision(seq, command.action, drawer, command.rationale)
         self.world.retarget(drawer)
         if self.recorder:
             self.recorder.set(decision=f"decision {seq}", action=command.action,
@@ -212,6 +215,10 @@ class KitchenFlow(Flow[Command, Observation]):
         self.memory.note_outcome(drawer, success=bool(self.world.success),
                                  opening_m=snap["opening_m"], error=self.world.error,
                                  step=self.step_count)
+        if self.transcript is not None:
+            self.transcript.note_outcome(seq, drawer, success=bool(self.world.success),
+                                         opening_m=snap["opening_m"],
+                                         contact=snap["contact_fraction"], error=self.world.error)
         print(f"  [kitchen] pull {drawer}: success={self.world.success} "
               f"opening={snap['opening_m']:.3f}m contact={snap['contact_fraction']:.2f}")
         if self.recorder:
@@ -298,6 +305,8 @@ class MemoryFlow(Flow[Belief, Digest]):
     """Folds each observation into the structured record. No model here."""
 
     memory: object = None
+    transcript: object = None
+    mode: str = "structured"
     candidates: tuple = ()
     planner: object = None
     name: str = "Memory"
@@ -308,12 +317,18 @@ class MemoryFlow(Flow[Belief, Digest]):
         if seq is None or seq == self._served:
             return None
         self._served = seq
-        for row in json.loads(belief.contents_json):
+        rows = json.loads(belief.contents_json)
+        for row in rows:
             if row.get("contents"):
                 self.memory.note_contents(row["drawer"], contents=row["contents"],
                                           confidence=float(row.get("confidence") or 0.0),
                                           step=seq)
-        text = self.memory.digest(self.candidates)
+        if self.transcript is not None:
+            self.transcript.note_belief(seq, rows, belief.summary)
+        # The structured record is ALWAYS kept, because it is how the run is
+        # scored. The ablation varies only which account the planner is handed.
+        source = self.transcript if self.mode == "transcript" else self.memory
+        text = source.digest(self.candidates)
         return Digest(seq=seq, text=text,
                       decisions=len(getattr(self.planner, "decisions", [])),
                       finished=bool(getattr(self.planner, "finished", False)))
@@ -336,6 +351,8 @@ def main():
     parser.add_argument("--duration", type=float, default=600.0)
     parser.add_argument("--planner-hz", type=float, default=0.2)
     parser.add_argument("--seed", type=int, default=7)
+    parser.add_argument("--memory", choices=("structured", "transcript"), default="structured",
+                        help="What the planner is given: E2's structured robot memory, or a plain transcript.")
     parser.add_argument("--output", default="runs")
     parser.add_argument("--video", default="", help="Write an mp4 of the run to this path.")
     parser.add_argument("--video-stride", type=int, default=2)
@@ -350,14 +367,17 @@ def main():
 
     world = kitchen.DrawerWorld(placements)
     memory = DrawerMemory()
+    transcript = Transcript()
     channel = astra_mod.Astra(max_calls=args.max_calls, max_usd=args.budget_usd)
 
     recorder = Recorder(args.video, stride=args.video_stride) if args.video else None
     planner = AstraPlannerFlow(astra=channel, memory_ref=memory, task=args.task,
                                candidates=kitchen.DRAWERS, max_decisions=args.max_decisions)
-    robot = KitchenFlow(world=world, memory=memory, recorder=recorder)
+    robot = KitchenFlow(world=world, memory=memory, transcript=transcript, recorder=recorder)
     belief = AstraBeliefFlow(astra=channel, recorder=recorder)
-    recall = MemoryFlow(memory=memory, candidates=kitchen.DRAWERS, planner=planner)
+    recall = MemoryFlow(memory=memory, transcript=transcript, mode=args.memory,
+                        candidates=kitchen.DRAWERS, planner=planner)
+    print(f"  memory arm: {args.memory}")
 
     retriever.init(backend="in-process")
     with Pipeline(name="astra drawer search") as pipe:
@@ -371,7 +391,38 @@ def main():
         pipe.connect(m, p, sync=Latest())           # closes the loop
 
     started = time.time()
-    pipe.run(duration=args.duration)
+    # Non-blocking, so the run ends when the planner does instead of idling out
+    # its whole duration. duration stays as the hard ceiling. A short grace
+    # lets the final belief/memory hop drain before the engine is stopped.
+    # In-process semantics: start() only arms the engine; wait() RUNS the loop
+    # and tears the engine down when it returns, so it cannot be sliced with
+    # short timeouts. It must also run on the MAIN thread: the flows render
+    # through a mujoco.Renderer, and a CGL context is bound to the thread that
+    # created it -- touching it from another thread blocks in the driver,
+    # uninterruptibly (a worker-thread variant of this loop hung for 11 minutes
+    # at 0% CPU on the final frame). So the loop stays here and a watchdog
+    # thread ends it: stop() only flips the engine's running flag, which is
+    # safe from any thread. --duration remains the hard ceiling.
+    import faulthandler
+    import threading
+    faulthandler.dump_traceback_later(args.duration + 90, exit=True)   # a stall prints stacks and exits
+    engine = pipe.run(duration=args.duration, blocking=False)
+
+    def watchdog():
+        grace_until = None
+        while engine.is_alive:
+            time.sleep(1.0)
+            if planner.finished and grace_until is None:
+                grace_until = time.time() + 3.0     # let the last belief/memory hop drain
+            if grace_until is not None and time.time() >= grace_until:
+                engine.stop(); break
+            if time.time() - started > args.duration:
+                print(f"  [run] duration ceiling {args.duration:.0f}s reached")
+                engine.stop(); break
+
+    threading.Thread(target=watchdog, name="watchdog", daemon=True).start()
+    engine.wait(timeout=args.duration)
+    faulthandler.cancel_dump_traceback_later()
     wall = time.time() - started
 
     truth = world.ground_truth()
@@ -379,7 +430,8 @@ def main():
         "task": args.task,
         "model": channel.model,
         "roles_on_astra": ["planner", "belief"],
-        "memory": "structured, model-free (memory.py)",
+        "memory": f"{args.memory} (measurement always structured; see memory.py)",
+        "memory_mode": args.memory,
         "candidates": list(kitchen.DRAWERS),
         "unreachable": list(kitchen.UNREACHABLE_DRAWERS),
         "openable_by_primitive": openable,

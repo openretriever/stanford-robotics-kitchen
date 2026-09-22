@@ -19,7 +19,8 @@ Planner ---> Kitchen ---> Belief ---> Memory ---+
 ## Set up
 
 `retriever-core` is on PyPI and conda-forge. The kitchen scene comes from
-`stanford-robotics-kitchen`, which is privately published -- install it from its own
+`stanford-robotics-kitchen` (public at github.com/openretriever/stanford-robotics-kitchen;
+not yet on PyPI) -- install it from its own
 checkout (a built wheel under its `dist/`, or `uv pip install -e <path>`).
 
 ```sh
@@ -163,11 +164,39 @@ coloured cylinders, so "paprika" is not readable from pixels; Astra said
 correct answer. An earlier metric that demanded the product name scored this run
 0/2 -- a metric failure, not a model failure.
 
-## E2
+## E2: the memory ablation
 
-This implements the runnable half of "E2 -- Long-horizon drawer search with
-memory" from `docs/icra_experiment_plan_v1.md`. Emitted per run: decisions,
-repeated drawer visits, unsupported-belief actions, recovery actions, failed
-manipulations with reasons, model calls and tokens by role, wall time, and the
-score against ground truth. The transcript-only-versus-structured-memory ablation
-is not wired yet: the structured arm is what runs today.
+This implements "E2 -- Long-horizon drawer search with memory" from
+`docs/icra_experiment_plan_v1.md`, including its central comparison:
+
+```sh
+./.venv/bin/python pipeline.py --memory structured   # E2's robot-memory capability
+./.venv/bin/python pipeline.py --memory transcript    # the control: a plain chronological log
+./.venv/bin/python compare.py --seeds 3 --decisions 8 # both arms, several seeds, one table
+```
+
+The two arms are built from the same events -- what was attempted, what the pull
+reported, what the model said it saw -- and differ only in what the planner is
+handed. `structured` gives it `memory.DrawerMemory.digest()`: one line per
+candidate drawer with attempts, open/closed, best opening, failures and their
+reasons, and the contents hypothesis with its confidence. `transcript` gives it
+`memory.Transcript.digest()`: the same facts in the order they happened, never
+folded per drawer, so whether a drawer has already failed twice is something it
+must work out from the log each turn.
+
+Measurement is always structured. The `DrawerMemory` record is kept in both arms
+because it is how a run is scored; the ablation varies only what the planner
+sees. Per run the record carries decisions used (horizon), repeated drawer
+visits, repeated physical actions, recovery actions, unsupported-belief claims,
+model calls and tokens by role, wall time, and the colour score. `compare.py`
+reads those back and tabulates them; it adds no measurement of its own.
+
+Not built: the four injected perturbations (jammed drawer, relocated target,
+failed grasp, stale observation) as a separate study. The three drawers the
+pull cannot open already supply failed manipulations, but not on demand.
+
+## Running to completion
+
+`pipeline.py` runs the pipeline non-blocking and stops the engine a few seconds
+after the planner reports or exhausts its decisions, instead of idling out the
+full `--duration`. `--duration` remains the hard ceiling.

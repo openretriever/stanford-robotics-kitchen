@@ -149,3 +149,38 @@ class DrawerMemory:
                 "colour_matched": sum(r["colour_matched"] for r in rows),
                 "named_product": sum(r["named_product"] for r in rows),
                 "of": len(rows)}
+
+
+@dataclass
+class Transcript:
+    """E2's control arm: the run as a chronological log, with no aggregation.
+
+    Same facts the structured record is built from -- what was attempted, what
+    the pull reported, what the model said it saw -- but presented in the order
+    they happened and never folded per drawer. Whether a drawer has already
+    failed twice, or is already open, is something the planner must work out
+    from the log each time rather than read off a record. That is the whole
+    difference the ablation measures, so nothing else may differ.
+    """
+
+    lines: list = field(default_factory=list)
+
+    def note_decision(self, seq, action, drawer, rationale):
+        self.lines.append(f"{seq}. decided {action} {drawer} -- {rationale[:120]}")
+
+    def note_outcome(self, seq, drawer, *, success, opening_m, contact, error):
+        verdict = "verified grasp" if success else f"not verified ({error or 'no error given'})"
+        self.lines.append(f"   pull of {drawer}: {verdict}; opening {opening_m:.3f} m; contact {contact:.2f}")
+
+    def note_belief(self, seq, rows, summary):
+        if rows:
+            for row in rows:
+                self.lines.append(f"   seen in {row['drawer']}: {row['contents'][:110]} "
+                                  f"(confidence {float(row.get('confidence') or 0):.2f})")
+        else:
+            self.lines.append(f"   seen: {summary[:140]}")
+
+    def digest(self, candidates):
+        if not self.lines:
+            return "Nothing attempted or observed yet."
+        return "Transcript of this run so far:\n" + "\n".join(self.lines)
