@@ -1,22 +1,5 @@
-"""The SRC kitchen as a searchable drawer world, for an Astra-driven search.
-
-What this owns and what it borrows
-----------------------------------
-The drawer opening is src-kitchen's own `DrawerPull`: a scripted, contact-driven
-Panda pull whose success test is `opening > 0.25` AND two-finger contact held for
-more than 90% of the pull frames. That primitive is reused, not reinvented, and
-its author's framing stands -- "Scripted contact-driven opening; not a learned
-search policy". What is added here is only the world the search happens in:
-
-  * a `drawer_view` camera, because the compiled model defines none (`model.ncam == 0`);
-  * target jars hidden inside chosen drawers, so there is something to find;
-  * `retarget()`, which moves the skill to a different drawer WITHOUT resetting
-    physics, so drawers opened earlier in a run stay open and accumulate;
-  * `ground_truth()`, used only to score a finished run, never shown to a model.
-
-So the robot really opens the drawer, and the choice of which drawer and the
-reading of what is inside are the model's problem.
-"""
+"""The SRC kitchen as a searchable drawer world: src-kitchen's contact-driven DrawerPull,
+plus an injected camera, hidden visual-only jars, and retargeting that keeps opened drawers open."""
 from __future__ import annotations
 
 import io as _io
@@ -43,18 +26,12 @@ IMAGE = 320                      # Astra sees 320x320, matching robot-sim's cont
 JAR_HALF = 0.038                 # half-height; keeps the jar under the 0.052 wall top
 
 # The twelve kitchen drawer slide joints, as three stacks of four.
-# Reachable search space. The four beverage_drawers sit at x=-2.5, nearly three
-# metres from the Panda's fixed base at (0, 1.90, 0): measured, not assumed. They
-# are listed separately so a run can report what it could not have searched.
+# The beverage bank is at x=-2.5, ~2.9 m from the Panda's base: unreachable, reported not searched.
 DRAWERS = tuple(f"range_drawers_drawer{col}_{row}" for col in (0, 1) for row in range(4))
 UNREACHABLE_DRAWERS = tuple(f"beverage_drawers_drawer0_{row}" for row in range(4))
 
-# Which of the eight the scripted pull actually opens, at robot_mount_height 0.30.
-# Measured by sweeping all eight to completion and keeping only the ones that pass
-# DrawerPull's own verification (opening > 0.25m AND two-finger contact held for
-# more than 90% of the pull). The other three fail in "Align with handle" or
-# "Approach drawer" and are left in DRAWERS on purpose: a search that can only be
-# pointed at drawers guaranteed to open would never exercise failure recovery.
+# Measured at mount 0.30: these five pass DrawerPull's own verification; the other three stay
+# in DRAWERS so failure recovery gets exercised.
 OPENABLE = ("range_drawers_drawer0_1", "range_drawers_drawer0_2", "range_drawers_drawer0_3",
             "range_drawers_drawer1_2", "range_drawers_drawer1_3")
 
@@ -85,19 +62,13 @@ class Placement:
 class DrawerWorld(DrawerPull):
     """A retargetable contact-driven pull over a kitchen holding hidden jars."""
 
-    # DrawerPull mounts the Panda at 0.58m, which can only reach the TOP drawer of
-    # a stack: measured 1/4 at 0.58 against 3/4 at 0.30, with the lower rows
-    # failing in "Align with handle" at a 0.043m gap that is almost entirely
-    # vertical. Dropping the mount is what makes a multi-drawer search possible.
-    robot_mount_height = 0.30
+    robot_mount_height = 0.30      # 0.58 reaches 1 of 4 drawers; 0.30 reaches 3 of 4 (measured)
 
     def __init__(self, placements, camera_pos=None, camera_target=None):
         self._placements = list(placements)
         self._camera_pos = list(camera_pos or (0.30, 1.95, 1.62))
         self._camera_target = list(camera_target or (-0.20, 2.45, 0.70))
-        # DrawerPull.__init__ hardcodes one drawer, so go straight to CupTransfer
-        # and supply the target ourselves. Everything else about DrawerPull -- its
-        # phases, IK targets, grasp verification -- is inherited untouched.
+        # DrawerPull.__init__ hardcodes one drawer; go straight to CupTransfer.
         self.drawer_name = self._placements[0].drawer if self._placements else DRAWERS[0]
         CupTransfer.__init__(self)
         self.model.opt.cone = mujoco.mjtCone.mjCONE_ELLIPTIC
@@ -112,14 +83,7 @@ class DrawerWorld(DrawerPull):
     # -- what the camera should and should not show -------------------------
 
     def _light_scene(self):
-        """Light the room properly instead of relying on the headlight.
-
-        As compiled, the three ceiling lights carry diffuse 0.06 each while a
-        camera-mounted headlight (ambient 0.18, diffuse 0.10) does most of the
-        work. A headlight casts no shadows and moves with the eye, so everything
-        renders flat and washed out. Push the real lights up, drop the headlight
-        to a fill, and warm the key slightly.
-        """
+        """Compiled lights are diffuse 0.06 with a headlight doing the work; raise the lights, drop the headlight."""
         head = self.model.vis.headlight
         head.ambient[:] = [0.28, 0.27, 0.25]
         head.diffuse[:] = [0.03, 0.03, 0.03]
@@ -132,15 +96,7 @@ class DrawerWorld(DrawerPull):
 
     @staticmethod
     def _clean_view():
-        """Hide visualisation-only sites from every rendered frame.
-
-        Site group 1 holds robosuite's `gripperright_grip_site_cylinder`: a green
-        cylinder 10 METRES long that crosses the whole image. Group 2 holds the
-        scene's teal annotation markers. Neither is part of the kitchen, and the
-        green one is not merely ugly -- a model asked what it sees reports "a
-        thin green elongated object", so leaving it in corrupts perception as
-        well as the video.
-        """
+        """Hide site groups 1 (a 10 m green grip-axis cylinder Astra reported as an object) and 2 (annotation markers)."""
         option = mujoco.MjvOption()
         option.sitegroup[1] = 0
         option.sitegroup[2] = 0
@@ -149,35 +105,17 @@ class DrawerWorld(DrawerPull):
     # -- world construction -------------------------------------------------
 
     def decorate(self, spec, body):
-        """Add the camera the model lacks, and hide the jars to be found.
-
-        The default pose looks DOWN into the bank from above-right. A camera level
-        with the drawer fronts sees the fronts perfectly and the open drawer's
-        contents not at all -- verified by rendering both: level views report an
-        open drawer as a dark cavity, this one shows the jar inside it.
-        """
+        """Add a camera (the model has none) and hide the jars. Overhead pose: a level camera cannot see into an open drawer."""
         spec.worldbody.add_camera(
             name="drawer_view", pos=self._camera_pos,
             xyaxes=look_at(self._camera_pos, self._camera_target),
         )
         for index, place in enumerate(self._placements):
-            # A jar is parented to its drawer body, so it travels with the drawer
-            # and only becomes visible once that drawer is actually pulled open.
             drawer_body = spec.body(place.drawer)
-            # Seat the jar on the drawer floor, deep inside the box. The body
-            # origin is the FRONT PANEL, not the box centre: the box runs +y to
-            # y=0.53 with its floor at z=-0.035 and side walls topping out at
-            # z=+0.052. A jar at z=+0.055 -- one z of guesswork -- clears those
-            # walls and is visible with every drawer shut, which makes the search
-            # solvable without opening anything. Sit it at JAR_HALF above the
-            # floor so the walls and front panel hide it until the drawer is out.
+            # Body origin is the front panel; floor z=-0.035, walls top at +0.052. Seat the jar on the floor.
             jar = drawer_body.add_body(
                 name=f"target_{index}", pos=[0.0, 0.26, -0.035 + JAR_HALF])
-            # Visual-only, exactly like this scene's parked Mobile ALOHA geometry.
-            # A collidable jar wedges against the cabinet frame and stops the pull
-            # dead at 0.0144m instead of 0.2995m -- measured, not theorised. The
-            # jar exists to be SEEN, so it takes no part in contact: contype and
-            # conaffinity 0, zero mass. Nothing here can be picked up.
+            # Visual-only: a collidable jar jams the pull at 0.014 m instead of 0.30 m.
             jar.add_geom(
                 name=f"target_{index}_geom", type=mujoco.mjtGeom.mjGEOM_CYLINDER,
                 size=[0.026, JAR_HALF, 0], mass=0, contype=0, conaffinity=0, group=1,
@@ -187,24 +125,11 @@ class DrawerWorld(DrawerPull):
     # -- retargeting without losing accumulated world state -----------------
 
     def retarget(self, drawer_name):
-        """Aim the skill at another drawer, preserving every drawer already open.
-
-        This is DrawerPull.reset() minus CupTransfer.reset()'s mj_resetData: the
-        handle, joint address and phase counters are recomputed, but the drawers'
-        qpos is left alone. A search that re-closed the kitchen on every step
-        would not be a long-horizon search.
-
-        The ARM, however, must go home. DrawerPull's phases blend from
-        phase_origin toward handle-relative targets on the assumption that the
-        arm starts at the solved home pose; starting from wherever the previous
-        attempt ended invalidates the whole trajectory. Left unfixed this is
-        silent and total: the first pull of a run behaves exactly as measured in
-        isolation and every pull after it reports opening=0.000.
-        """
+        """Aim at another drawer without resetting the world; send only the arm home (the scripted
+        trajectory assumes the home pose -- without this every pull after the first reads 0.000)."""
         if drawer_name not in DRAWERS:
             raise ValueError(f"Unknown drawer: {drawer_name}")
         self.drawer_name = drawer_name
-        # Restore only the robot's own degrees of freedom, never the drawers'.
         self.data.qpos[self.arm_q] = self.initial_q[self.arm_q]
         self.data.qvel[self.arm_v] = 0.0
         self.data.qpos[self.finger_q] = [0.04, -0.04]
@@ -233,12 +158,7 @@ class DrawerWorld(DrawerPull):
         return Image.fromarray(self._renderer.render())
 
     def render_large(self, camera="drawer_view", width=1280, height=720):
-        """A separate, higher-resolution renderer for video.
-
-        Kept apart from render(): that one is pinned to 320x320 because it feeds
-        the model, and the contract with Astra should not silently change when
-        somebody wants a nicer picture.
-        """
+        """Video renderer, separate from the 320x320 one that feeds the model."""
         if self._video_renderer is None or self._video_renderer.width != width:
             self._video_renderer = mujoco.Renderer(self.model, height, width)
         self._video_renderer.update_scene(self.data, camera=camera,
@@ -251,14 +171,7 @@ class DrawerWorld(DrawerPull):
         return buffer.getvalue()
 
     def geometry(self):
-        """Handle height and stack for each drawer, from the model.
-
-        The belief role is given this because drawer NAMES are not visually
-        inferable: nothing in an image distinguishes drawer0_1 from drawer0_3,
-        and without a mapping the model attributes what it sees to whichever
-        drawer it can pick out -- in testing, consistently reporting the jar in
-        an empty drawer. Heights are mechanism geometry, not target knowledge.
-        """
+        """Handle height and stack per drawer: names are not visually inferable, heights are."""
         rows = {}
         for name in DRAWERS:
             site = self.model.site(name + "_handle").id

@@ -1,24 +1,5 @@
-"""An all-Astra long-horizon drawer search in the SRC kitchen, as a Retriever pipeline.
-
-    Planner ---> Kitchen ---> Belief ---> Memory ---+
-       ^                                            |
-       +--------------------------------------------+
-
-Every model-backed role is gpt-6-astra: the planner that chooses the next drawer,
-and the belief updater that reads what is inside from pixels. Memory is
-deliberately NOT a model (see memory.py). The robot's drawer pull is src-kitchen's
-own contact-driven primitive, verified by two-finger contact -- not a rail force
-and not a teleport.
-
-The planner is CLOCKED, not data-driven. A cycle in this runtime self-clocks: a
-two-node loop wired with Latest() on both edges ran 36,161 iterations in three
-seconds during development. With Astra on those nodes that is a way to spend real
-money by accident, so the loop is paced by Rate() on the planner and bounded a
-second time by the spend cap inside astra.Astra.
-
-What the model is never told: which drawer holds what. Ground truth is read only
-after the run, to score it.
-"""
+"""All-Astra long-horizon drawer search in the SRC kitchen as a Retriever pipeline:
+Planner -> Kitchen -> Belief -> Memory -> Planner. See README.md."""
 from __future__ import annotations
 
 import argparse
@@ -249,13 +230,9 @@ class AstraBeliefFlow(Flow[Observation, Belief]):
         if seq is None or seq == self._served:
             return None
         self._served = seq
-        # Mechanism state only: which drawers are out, and by how much. Giving
-        # this is what lets the model file a jar under the right drawer; it says
-        # nothing about contents, which is the thing being searched for.
+        # Mechanism state only (which drawers are out, and how far); nothing about contents.
         openings = {k: round(v, 3) for k, v in json.loads(obs.openings_json).items() if v > 0.04}
         geom = json.loads(obs.geometry_json)
-        # Ordered highest-first, with heights, so "the higher open drawer" in the
-        # image can be tied to a name.
         ordered = sorted(openings.items(), key=lambda kv: -geom[kv[0]]["handle_height_m"])
         open_list = "; ".join(
             f"{name} = {geom[name]['stack']} stack, handle {geom[name]['handle_height_m']}m high, "
@@ -325,8 +302,7 @@ class MemoryFlow(Flow[Belief, Digest]):
                                           step=seq)
         if self.transcript is not None:
             self.transcript.note_belief(seq, rows, belief.summary)
-        # The structured record is ALWAYS kept, because it is how the run is
-        # scored. The ablation varies only which account the planner is handed.
+        # Measurement is always structured; the ablation varies only what the planner is handed.
         source = self.transcript if self.mode == "transcript" else self.memory
         text = source.digest(self.candidates)
         return Digest(seq=seq, text=text,
@@ -391,18 +367,8 @@ def main():
         pipe.connect(m, p, sync=Latest())           # closes the loop
 
     started = time.time()
-    # Non-blocking, so the run ends when the planner does instead of idling out
-    # its whole duration. duration stays as the hard ceiling. A short grace
-    # lets the final belief/memory hop drain before the engine is stopped.
-    # In-process semantics: start() only arms the engine; wait() RUNS the loop
-    # and tears the engine down when it returns, so it cannot be sliced with
-    # short timeouts. It must also run on the MAIN thread: the flows render
-    # through a mujoco.Renderer, and a CGL context is bound to the thread that
-    # created it -- touching it from another thread blocks in the driver,
-    # uninterruptibly (a worker-thread variant of this loop hung for 11 minutes
-    # at 0% CPU on the final frame). So the loop stays here and a watchdog
-    # thread ends it: stop() only flips the engine's running flag, which is
-    # safe from any thread. --duration remains the hard ceiling.
+    # wait() is the loop and tears down on return, so run it once, on the main thread (the CGL
+    # context is thread-bound); a watchdog ends it via stop(). --duration is the hard ceiling.
     import faulthandler
     import threading
     faulthandler.dump_traceback_later(args.duration + 90, exit=True)   # a stall prints stacks and exits

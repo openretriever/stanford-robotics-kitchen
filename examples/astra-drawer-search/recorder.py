@@ -1,8 +1,4 @@
-"""Streams a run to an mp4: wide view, caption bar, and Astra's own 320px frame.
-
-Frames are written as they are produced, never accumulated. A six-decision run
-is roughly 4,000 frames; held in memory at 1280x720x3 that would be about 11 GB.
-"""
+"""Streams a run to mp4 (wide view, caption bar, the model's own 320px frame), frame by frame."""
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -35,8 +31,7 @@ class Recorder:
 
     def __post_init__(self):
         Path(self.path).parent.mkdir(parents=True, exist_ok=True)
-        # h264 + yuv420p is what QuickTime and browsers will actually play;
-        # odd dimensions break yuv420p, so both are kept even.
+        # h264/yuv420p plays in QuickTime and browsers; dimensions must be even.
         self._writer = imageio.get_writer(
             self.path, fps=self.fps, codec="libx264", pixelformat="yuv420p",
             macro_block_size=1, ffmpeg_params=["-crf", "20"])
@@ -55,8 +50,7 @@ class Recorder:
         try:                                    # Astra's actual input, inset
             if self._pip_failed:
                 raise RuntimeError("inset previously failed")
-            # Re-rendering the model's 320px view every frame doubles the cost of
-            # the whole recording for an inset that barely changes between them.
+            # Re-render the inset only every few frames; it barely changes.
             if self._pip is None or self._pip_age >= self.pip_every:
                 self._pip = world.render().resize((PIP, PIP))
                 self._pip_age = 0
@@ -68,9 +62,7 @@ class Recorder:
             d.text((self.width - PIP - 10, self.height - PIP - 30),
                    "drawer_view 320x320 (what Astra sees)", fill=(235, 235, 235))
         except Exception as error:
-            # The inset is a nicety; losing it must not abandon the recording.
-            # But swallowing the reason silently would hide a broken renderer for
-            # a whole run, so say it once and then stop trying.
+            # Say it once, keep recording without the inset.
             if not self._pip_failed:
                 self._pip_failed = True
                 print(f"  [recorder] inset disabled: {type(error).__name__}: {error}")

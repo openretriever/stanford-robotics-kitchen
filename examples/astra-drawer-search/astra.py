@@ -1,23 +1,5 @@
-"""gpt-6-astra over /v1/responses, with forced tool calls and a spend cap.
-
-Why /v1/responses and not /v1/chat/completions: measured, not preferred. Astra
-answers plain prose on chat completions, but asking for function tools there is
-refused outright -- "Function tools with reasoning_effort are not supported for
-gpt-6-astra in /v1/chat/completions. To use function tools, use /v1/responses".
-Every role here needs a schema-validated answer AND reasoning, so this is the
-only endpoint that serves both. It is also the endpoint robot-sim/agent.py uses.
-
-Why not litellm: nothing here needs a provider abstraction, and a dependency that
-rewrites request bodies is a poor place to keep a contract this specific. Why
-forced tool calls rather than prose or json_object: the same reason robot-sim
-does it -- a schema the provider validates beats a regex over free text, and a
-role that must answer in a fixed shape should not be able to answer otherwise.
-
-Every call is metered. A long-horizon run makes many model calls, and at Astra's
-rates an unattended loop is a way to spend real money by accident, so the budget
-is enforced here, in the one place all calls pass through, rather than trusted to
-each caller.
-"""
+"""gpt-6-astra over /v1/responses with forced tool calls and a spend cap. Chat completions
+refuses function tools for this model with reasoning_effort; responses is the endpoint robot-sim uses."""
 from __future__ import annotations
 
 import base64
@@ -61,7 +43,7 @@ class Call:
 
 @dataclass
 class Astra:
-    """One metered channel to the model. Share a single instance across flows."""
+    """One metered channel to the model; share one instance across flows."""
 
     model: str = MODEL
     max_calls: int = 60

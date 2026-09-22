@@ -1,16 +1,5 @@
-"""Structured robot memory for a drawer search -- the thing E2 actually compares.
-
-E2's comparison is transcript-only agent state against "a structured robot-memory
-capability that records inspected drawers, object hypotheses, completed subgoals,
-failed manipulations, and links to supporting evidence". That is this file, and it
-holds all five.
-
-Deliberately model-free. If memory were itself a model call, then a wrong memory
-and a wrong plan would share a failure mode, and the ablation would no longer
-isolate what it claims to isolate. Everything here is arithmetic over observed
-events, so the only thing the ablation varies is whether the planner is given
-this record or just its own transcript.
-"""
+"""Structured robot memory for the drawer search (E2's comparison), deliberately model-free
+so a wrong memory and a wrong plan cannot share a failure mode."""
 from __future__ import annotations
 
 import json
@@ -55,12 +44,7 @@ class DrawerMemory:
         row.attempts += 1
 
     def note_claim(self, item):
-        """Score a "found it" claim against what was actually observed.
-
-        E2's unsupported-belief action means acting as though something is true
-        with no observation behind it. Opening an untried drawer is not that --
-        it is how you get an observation. Naming an item no image ever showed is.
-        """
+        """An unsupported claim names an item no observation showed. Opening an untried drawer is not one."""
         seen = " ".join(row.contents for row in self.records.values()).lower()
         supported = bool(item) and item.split()[0].lower() in seen
         if not supported:
@@ -116,16 +100,7 @@ class DrawerMemory:
         }
 
     def score(self, ground_truth, colour_words=None):
-        """Compare hypotheses with the truth, on a criterion the task allows.
-
-        Scoring on whether the model emitted the word "paprika" is unfair and was
-        my first mistake here: the jar is an unlabelled coloured cylinder, so
-        "paprika" is not readable from pixels and a model that says it is
-        guessing. Astra answered "a reddish-brown cylindrical object", declined to
-        name the spice, and scored 0/2 against product names -- a metric failure,
-        not a model failure. So the criterion is what the pixels can support:
-        did the hypothesis for the right drawer carry the right COLOUR?
-        """
+        """Score on colour, which pixels support; the jars are unlabelled, so product names are guesses."""
         colour_words = colour_words or {
             "paprika": ("reddish", "red", "brown", "maroon", "rust", "orange"),
             "herb seasoning": ("green", "olive"),
@@ -153,15 +128,7 @@ class DrawerMemory:
 
 @dataclass
 class Transcript:
-    """E2's control arm: the run as a chronological log, with no aggregation.
-
-    Same facts the structured record is built from -- what was attempted, what
-    the pull reported, what the model said it saw -- but presented in the order
-    they happened and never folded per drawer. Whether a drawer has already
-    failed twice, or is already open, is something the planner must work out
-    from the log each time rather than read off a record. That is the whole
-    difference the ablation measures, so nothing else may differ.
-    """
+    """E2's control arm: the same events as a chronological log, never folded per drawer."""
 
     lines: list = field(default_factory=list)
 
