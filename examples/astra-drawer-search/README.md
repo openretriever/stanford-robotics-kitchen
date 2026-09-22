@@ -191,9 +191,39 @@ visits, repeated physical actions, recovery actions, unsupported-belief claims,
 model calls and tokens by role, wall time, and the colour score. `compare.py`
 reads those back and tabulates them; it adds no measurement of its own.
 
-Not built: the four injected perturbations (jammed drawer, relocated target,
-failed grasp, stale observation) as a separate study. The three drawers the
-pull cannot open already supply failed manipulations, but not on demand.
+### First result: a null, and why (22 September)
+
+Three seeds, both arms, eight-decision cap, $0.46 in total
+(`docs/e2-ablation-2026-09-22.md`):
+
+| arm | runs | found | horizon | repeat physical | recovery | unsupported | colour/2 | $ total |
+|---|---|---|---|---|---|---|---|---|
+| structured | 3 | 3/3 | 4.0 | 0.3 | 0.3 | 0.0 | 1.3 | 0.23 |
+| transcript | 3 | 3/3 | 4.0 | 0.3 | 0.3 | 0.0 | 1.3 | 0.23 |
+
+**The two arms produced identical decision sequences on every seed** -- not
+merely equal aggregates, the same drawers in the same order, including the
+same information-seeking re-open of `drawer0_2` on seed 3. At this horizon the
+representation does not matter, and the reason is visible in the traces: the
+planner scans `drawer0_0`, `drawer0_1`, `drawer0_2`, ... bottom-up through one
+stack, so the target is found in three to five decisions and a five-line
+transcript is as easy to read as a five-line record. Nothing here is long
+enough, or adversarial enough, for structure to earn its keep.
+
+That is what E2 anticipates. It says to *vary the number of candidate drawers*
+and to *inject one mid-task perturbation* -- a jammed drawer, a relocated
+target, a failed grasp, a stale observation -- and to run the perturbation
+study separately from the memory ablation. The infrastructure for the ablation
+is done; the conditions under which it could show a difference are not yet
+built: a target placed where the scan reaches it last, and a perturbation that
+makes the run's own earlier evidence wrong. Until then this table should be
+read as "the harness works and the two arms are truly identical apart from what
+the planner is handed", not as evidence about memory.
+
+Also measured: with early termination a four-decision run takes 22-45 s of wall
+time end to end, against the 240-420 s the same runs spent idling before.
+
+Not built: the perturbation study, and placement that forces long horizons.
 
 ## Running to completion
 

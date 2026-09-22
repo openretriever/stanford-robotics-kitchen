@@ -1,0 +1,117 @@
+{
+  "seeds": 3,
+  "decisions_cap": 8,
+  "rows": [
+    {
+      "arm": "structured",
+      "runs": 3,
+      "found": 3,
+      "supported": 3,
+      "horizon": 4,
+      "repeated_visits": 0,
+      "repeated_physical": 0.3333333333333333,
+      "recovery": 0.3333333333333333,
+      "unsupported": 0,
+      "colour": 1.3333333333333333,
+      "calls": 7,
+      "usd": 0.23009999999999997,
+      "wall_s": 33.833333333333336
+    },
+    {
+      "arm": "transcript",
+      "runs": 3,
+      "found": 3,
+      "supported": 3,
+      "horizon": 4,
+      "repeated_visits": 0,
+      "repeated_physical": 0.3333333333333333,
+      "recovery": 0.3333333333333333,
+      "unsupported": 0,
+      "colour": 1.3333333333333333,
+      "calls": 7,
+      "usd": 0.2299,
+      "wall_s": 34.2
+    }
+  ],
+  "per_run": {
+    "structured_seed1": {
+      "found": true,
+      "supported": true,
+      "horizon": 4,
+      "repeated_visits": 0,
+      "repeated_physical": 0,
+      "recovery": 0,
+      "unsupported": 0,
+      "colour": 2,
+      "calls": 7,
+      "usd": 0.0749,
+      "wall_s": 33.2
+    },
+    "transcript_seed1": {
+      "found": true,
+      "supported": true,
+      "horizon": 4,
+      "repeated_visits": 0,
+      "repeated_physical": 0,
+      "recovery": 0,
+      "unsupported": 0,
+      "colour": 2,
+      "calls": 7,
+      "usd": 0.0756,
+      "wall_s": 35.2
+    },
+    "structured_seed2": {
+      "found": true,
+      "supported": true,
+      "horizon": 3,
+      "repeated_visits": 0,
+      "repeated_physical": 0,
+      "recovery": 0,
+      "unsupported": 0,
+      "colour": 1,
+      "calls": 5,
+      "usd": 0.0507,
+      "wall_s": 24.1
+    },
+    "transcript_seed2": {
+      "found": true,
+      "supported": true,
+      "horizon": 3,
+      "repeated_visits": 0,
+      "repeated_physical": 0,
+      "recovery": 0,
+      "unsupported": 0,
+      "colour": 1,
+      "calls": 5,
+      "usd": 0.0503,
+      "wall_s": 22.1
+    },
+    "structured_seed3": {
+      "found": true,
+      "supported": true,
+      "horizon": 5,
+      "repeated_visits": 0,
+      "repeated_physical": 1,
+      "recovery": 1,
+      "unsupported": 0,
+      "colour": 1,
+      "calls": 9,
+      "usd": 0.1045,
+      "wall_s": 44.2
+    },
+    "transcript_seed3": {
+      "found": true,
+      "supported": true,
+      "horizon": 5,
+      "repeated_visits": 0,
+      "repeated_physical": 1,
+      "recovery": 1,
+      "unsupported": 0,
+      "colour": 1,
+      "calls": 9,
+      "usd": 0.104,
+      "wall_s": 45.3
+    }
+  },
+  "wall_total_s": 125
+}
