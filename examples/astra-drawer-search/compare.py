@@ -1,8 +1,9 @@
-"""Run E2's memory ablation: structured record vs plain transcript, several seeds each.
+"""Run E2's grid: memory arm x mid-task perturbation x seed, the target placed where the scan ends.
 
-    ./.venv/bin/python compare.py --seeds 3 --decisions 8 --budget 0.60
+    ./.venv/bin/python compare.py --seeds 3 --decisions 12 --budget 0.60
+    ./.venv/bin/python compare.py --perturb none --placement random --decisions 8   # the 22 Sept ablation
 
-Each (arm, seed) is one pipeline.py run in its own process; two run at a time.
+Each cell is one pipeline.py run in its own process; two run at a time.
 The metrics E2 asks for are read back from the run records the pipeline already
 writes, so this script adds no measurement of its own -- only the table.
 """
@@ -20,14 +21,23 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ARMS = ("structured", "transcript")
+PERTURBS = ("none", "relocate", "stale", "jam")
+COUNTED = ("found", "correct", "supported", "usd")     # summed per row; everything else is averaged
+COLUMNS = (("arm", "arm", "{}"), ("perturb", "perturb", "{}"), ("runs", "runs", "{}"),
+           ("found", "found", "{}"), ("correct", "correct", "{}"), ("supported", "supported", "{}"),
+           ("horizon", "horizon", "{:.1f}"), ("repeated_visits", "repeat visits", "{:.1f}"),
+           ("repeated_physical", "repeat physical", "{:.1f}"), ("recovery", "recovery", "{:.1f}"),
+           ("unsupported", "unsupported", "{:.1f}"), ("colour", "colour/2", "{:.1f}"),
+           ("calls", "calls", "{:.1f}"), ("usd", "$ total", "{:.2f}"), ("wall_s", "wall s", "{:.0f}"))
 
 
-def launch(arm, seed, args, outdir):
+def launch(arm, perturb, seed, args, outdir):
     cmd = [sys.executable, "-u", str(HERE / "pipeline.py"), "--memory", arm, "--seed", str(seed),
+           "--placement", args.placement, "--perturb", perturb, "--perturb-after", str(args.perturb_after),
            "--max-decisions", str(args.decisions), "--budget-usd", str(args.budget),
            "--max-calls", str(args.decisions * 2 + 2), "--duration", str(args.duration),
            "--planner-hz", "0.2", "--output", str(outdir)]
-    log = open(outdir / f"{arm}_seed{seed}.log", "w")
+    log = open(outdir / f"{arm}_{perturb}_seed{seed}.log", "w")
     return subprocess.Popen(cmd, stdout=log, stderr=subprocess.STDOUT,
                             env={**os.environ, "MUJOCO_GL": "cgl"}, cwd=HERE)
 
@@ -37,9 +47,12 @@ def metrics(record):
     acts = [d["action"] for d in dec]
     mem = record["memory_state"]
     attempts = [r["attempts"] for r in mem["records"].values()]
+    reported = acts[-1] == "report_found" if acts else False
+    target = next(iter(record["ground_truth"]))       # the first label's drawer, as relocated
     return {
-        "found": acts[-1] == "report_found" if acts else False,
-        "supported": (acts[-1] == "report_found" and mem["unsupported_actions"] == 0) if acts else False,
+        "found": reported,
+        "correct": reported and dec[-1]["drawer"] == target,
+        "supported": reported and mem["unsupported_actions"] == 0,
         "horizon": len(dec),
         "repeated_visits": mem["repeated_visits"],
         "repeated_physical": sum(a - 1 for a in attempts if a > 1),
@@ -52,74 +65,75 @@ def metrics(record):
     }
 
 
+def summarize(results):
+    """One row per (arm, perturbation) over its seeds. results: {(arm, perturb, seed): metrics}."""
+    rows = []
+    for arm in ARMS:
+        for perturb in PERTURBS:
+            runs = [m for (a, p, _), m in results.items() if (a, p) == (arm, perturb)]
+            if runs:
+                rows.append({"arm": arm, "perturb": perturb, "runs": len(runs), **{
+                    key: (sum if key in COUNTED else statistics.mean)([m[key] for m in runs])
+                    for key in runs[0]}})
+    return rows
+
+
+def table(rows):
+    md = ["| " + " | ".join(label for _, label, _ in COLUMNS) + " |", "|" + "---|" * len(COLUMNS)]
+    for row in rows:
+        md.append("| " + " | ".join(fmt.format(row[key]) for key, _, fmt in COLUMNS) + " |")
+    return md
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--seeds", type=int, default=3)
-    ap.add_argument("--decisions", type=int, default=8)
+    ap.add_argument("--decisions", type=int, default=12, help="Eight pulls reach the last drawer; leave room to re-plan.")
     ap.add_argument("--budget", type=float, default=0.60)
-    ap.add_argument("--duration", type=float, default=480)
+    ap.add_argument("--duration", type=float, default=720)
     ap.add_argument("--parallel", type=int, default=2)
+    ap.add_argument("--placement", choices=("random", "first", "last"), default="last")
+    ap.add_argument("--perturb", default=",".join(PERTURBS), help=f"Comma list from: {', '.join(PERTURBS)}")
+    ap.add_argument("--perturb-after", type=int, default=2)
     ap.add_argument("--out", type=Path, default=HERE / "runs" / "compare")
     args = ap.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
 
-    jobs = [(arm, seed) for seed in range(1, args.seeds + 1) for arm in ARMS]
+    perturbs = [p.strip() for p in args.perturb.split(",") if p.strip()]
+    jobs = [(arm, perturb, seed) for seed in range(1, args.seeds + 1) for perturb in perturbs for arm in ARMS]
     est = len(jobs) * args.decisions * 2 * 0.012
-    print(f"  {len(jobs)} runs ({args.seeds} seeds x {len(ARMS)} arms), up to {args.decisions} decisions each; "
-          f"estimated <= ${est:.2f} at ~$0.012/call; hard cap ${args.budget}/run")
+    print(f"  {len(jobs)} runs ({args.seeds} seeds x {len(perturbs)} perturbations x {len(ARMS)} arms), "
+          f"up to {args.decisions} decisions each; estimated <= ${est:.2f} at ~$0.012/call; "
+          f"hard cap ${args.budget}/run")
     running, results = [], {}
     t0 = time.time()
     while jobs or running:
         while jobs and len(running) < args.parallel:
-            arm, seed = jobs.pop(0)
-            outdir = args.out / f"{arm}_seed{seed}"; outdir.mkdir(exist_ok=True)
-            running.append((arm, seed, outdir, launch(arm, seed, args, outdir)))
-            print(f"  started {arm} seed {seed}")
+            arm, perturb, seed = jobs.pop(0)
+            outdir = args.out / f"{arm}_{perturb}_seed{seed}"; outdir.mkdir(exist_ok=True)
+            running.append((arm, perturb, seed, outdir, launch(arm, perturb, seed, args, outdir)))
+            print(f"  started {arm} {perturb} seed {seed}")
         time.sleep(5)
         for job in list(running):
-            arm, seed, outdir, proc = job
+            arm, perturb, seed, outdir, proc = job
             if proc.poll() is None:
                 continue
             running.remove(job)
             recs = sorted(glob.glob(str(outdir / "*.json")))
             if recs:
-                results[(arm, seed)] = metrics(json.load(open(recs[-1])))
-                m = results[(arm, seed)]
-                print(f"  done    {arm} seed {seed}: found={m['found']} horizon={m['horizon']} "
-                      f"recovery={m['recovery']} repeat={m['repeated_physical']} ${m['usd']:.3f}")
+                results[(arm, perturb, seed)] = m = metrics(json.load(open(recs[-1])))
+                print(f"  done    {arm} {perturb} seed {seed}: found={m['found']} correct={m['correct']} "
+                      f"horizon={m['horizon']} recovery={m['recovery']} repeat={m['repeated_physical']} ${m['usd']:.3f}")
             else:
-                print(f"  FAILED  {arm} seed {seed} (no record; see {outdir}/{arm}_seed{seed}.log)")
+                print(f"  FAILED  {arm} {perturb} seed {seed} (no record; see {outdir}/{arm}_{perturb}_seed{seed}.log)")
 
-    def agg(arm, key, how=statistics.mean):
-        vals = [m[key] for (a, _), m in results.items() if a == arm]
-        return how(vals) if vals else float("nan")
-
-    rows = []
-    for arm in ARMS:
-        n = sum(1 for (a, _) in results if a == arm)
-        rows.append({
-            "arm": arm, "runs": n,
-            "found": sum(m["found"] for (a, _), m in results.items() if a == arm),
-            "supported": sum(m["supported"] for (a, _), m in results.items() if a == arm),
-            "horizon": agg(arm, "horizon"), "repeated_visits": agg(arm, "repeated_visits"),
-            "repeated_physical": agg(arm, "repeated_physical"), "recovery": agg(arm, "recovery"),
-            "unsupported": agg(arm, "unsupported"), "colour": agg(arm, "colour"),
-            "calls": agg(arm, "calls"), "usd": agg(arm, "usd", sum), "wall_s": agg(arm, "wall_s"),
-        })
-    summary = {"seeds": args.seeds, "decisions_cap": args.decisions, "rows": rows,
-               "per_run": {f"{a}_seed{s}": m for (a, s), m in results.items()},
+    rows = summarize(results)
+    summary = {"seeds": args.seeds, "decisions_cap": args.decisions, "placement": args.placement,
+               "perturb_after": args.perturb_after, "rows": rows,
+               "per_run": {f"{a}_{p}_seed{s}": m for (a, p, s), m in results.items()},
                "wall_total_s": round(time.time() - t0)}
     (args.out / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
-
-    hdr = ["arm", "runs", "found", "supported", "horizon", "repeat visits", "repeat physical",
-           "recovery", "unsupported", "colour/2", "calls", "$ total", "wall s"]
-    md = ["| " + " | ".join(hdr) + " |", "|" + "---|" * len(hdr)]
-    for r in rows:
-        md.append("| " + " | ".join([
-            r["arm"], str(r["runs"]), str(r["found"]), str(r["supported"]), f"{r['horizon']:.1f}",
-            f"{r['repeated_visits']:.1f}", f"{r['repeated_physical']:.1f}", f"{r['recovery']:.1f}",
-            f"{r['unsupported']:.1f}", f"{r['colour']:.1f}", f"{r['calls']:.1f}", f"{r['usd']:.2f}",
-            f"{r['wall_s']:.0f}"]) + " |")
+    md = table(rows)
     (args.out / "summary.md").write_text("\n".join(md) + "\n")
     print("\n" + "\n".join(md))
     print(f"\n  {args.out}/summary.json  (total wall {summary['wall_total_s']}s)")

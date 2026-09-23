@@ -150,6 +150,46 @@ class AstraPlannerFlow(Flow[Digest, Command]):
 
 
 @dataclass
+class Perturbation:
+    """E2's one mid-task fault, injected once the k-th pull has been observed. The model is never told."""
+
+    kind: str = "none"              # none | relocate | stale | jam
+    after: int = 2
+    target: str = ""                # the label relocate moves
+    openable: tuple = ()
+    seed: int = 0
+    events: list = field(default_factory=list)
+    _pulls: int = 0
+    _previous: bytes = b""
+
+    def after_pull(self, world, frame):
+        """Returns the frame the belief will see, and changes the world where the fault calls for it."""
+        self._pulls += 1
+        late, self._previous = self._previous, frame
+        if self.kind == "stale" and self._pulls == self.after + 1 and late:
+            self._note(kind="stale", frame_from_pull=self._pulls - 1)
+            return late
+        if self.kind in ("relocate", "jam") and self._pulls == self.after:
+            truth = world.ground_truth()
+            # Empty drawers a pull could still open, in the order the scan reaches them.
+            closed = [d for d in sorted(self.openable, key=kitchen.DRAWERS.index)
+                      if world.openings()[d] < 0.04 and d not in truth]
+            if self.kind == "jam" and closed:
+                world.jam(closed[0])
+                self._note(kind="jam", drawer=closed[0])
+            if self.kind == "relocate" and closed:
+                here = next(d for d, label in truth.items() if label == self.target)
+                there = random.Random(self.seed).choice(closed)
+                world.relocate(self.target, there)
+                self._note(kind="relocate", label=self.target, moved_from=here, moved_to=there)
+        return frame
+
+    def _note(self, **event):
+        self.events.append({"pull": self._pulls, **event})
+        print(f"  [perturb] {event}")
+
+
+@dataclass
 class KitchenFlow(Flow[Command, Observation]):
     """The robot. Executes one contact-driven pull per command, then looks."""
 
@@ -157,6 +197,7 @@ class KitchenFlow(Flow[Command, Observation]):
     memory: object = None
     transcript: object = None
     recorder: object = None
+    perturb: object = None
     name: str = "Kitchen"
     step_count: int = 0
     _served: int = -1
@@ -207,7 +248,10 @@ class KitchenFlow(Flow[Command, Observation]):
             self.recorder.set(metric=f"{verdict}   opening {snap['opening_m']:.3f} m"
                                      f"   contact {snap['contact_fraction']:.2f}")
             self.recorder.hold(self.world, 1.4)
-        return Observation(seq=seq, step=self.step_count, frame_jpeg=self.world.jpeg(),
+        frame = self.world.jpeg()
+        if self.perturb is not None:
+            frame = self.perturb.after_pull(self.world, frame)
+        return Observation(seq=seq, step=self.step_count, frame_jpeg=frame,
                            acted_drawer=drawer, success=bool(self.world.success),
                            opening_m=float(snap["opening_m"]),
                            contact_fraction=float(snap["contact_fraction"]),
@@ -310,9 +354,14 @@ class MemoryFlow(Flow[Belief, Digest]):
                       finished=bool(getattr(self.planner, "finished", False)))
 
 
-def build_placements(seed, openable, labels):
+def build_placements(seed, openable, labels, placement="random"):
     chooser = random.Random(seed)
     drawers = chooser.sample(list(openable), k=min(len(labels), len(openable)))
+    if placement != "random":
+        # The planner scans the candidates in list order; put the target where that scan ends or starts.
+        scan = sorted(openable, key=kitchen.DRAWERS.index)
+        forced = scan[-1] if placement == "last" else scan[0]
+        drawers = [forced] + [d for d in drawers if d != forced][:len(drawers) - 1]
     return [kitchen.Placement(drawer, label) for drawer, label in zip(drawers, labels)]
 
 
@@ -329,6 +378,12 @@ def main():
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--memory", choices=("structured", "transcript"), default="structured",
                         help="What the planner is given: E2's structured robot memory, or a plain transcript.")
+    parser.add_argument("--placement", choices=("random", "first", "last"), default="random",
+                        help="Where the target jar goes: a seeded draw, or where the planner's scan starts or ends.")
+    parser.add_argument("--perturb", choices=("none", "relocate", "stale", "jam"), default="none",
+                        help="E2's mid-task fault: move the target to an unopened drawer, hand the belief the "
+                             "previous frame once, or stick the next drawer the scan reaches.")
+    parser.add_argument("--perturb-after", type=int, default=2, help="Inject after this many pulls.")
     parser.add_argument("--output", default="runs")
     parser.add_argument("--video", default="", help="Write an mp4 of the run to this path.")
     parser.add_argument("--video-stride", type=int, default=2)
@@ -337,7 +392,7 @@ def main():
     labels = [x.strip() for x in args.labels.split(",") if x.strip()]
     openable = ([x.strip() for x in args.openable.split(",") if x.strip()]
                 or list(kitchen.OPENABLE))
-    placements = build_placements(args.seed, openable, labels)
+    placements = build_placements(args.seed, openable, labels, args.placement)
     print("  hiding (never shown to the model):",
           ", ".join(f"{p.label} in {p.drawer}" for p in placements))
 
@@ -347,13 +402,17 @@ def main():
     channel = astra_mod.Astra(max_calls=args.max_calls, max_usd=args.budget_usd)
 
     recorder = Recorder(args.video, stride=args.video_stride) if args.video else None
+    perturb = Perturbation(kind=args.perturb, after=args.perturb_after, target=labels[0],
+                           openable=tuple(openable), seed=args.seed)
     planner = AstraPlannerFlow(astra=channel, memory_ref=memory, task=args.task,
                                candidates=kitchen.DRAWERS, max_decisions=args.max_decisions)
-    robot = KitchenFlow(world=world, memory=memory, transcript=transcript, recorder=recorder)
+    robot = KitchenFlow(world=world, memory=memory, transcript=transcript, recorder=recorder,
+                        perturb=perturb)
     belief = AstraBeliefFlow(astra=channel, recorder=recorder)
     recall = MemoryFlow(memory=memory, transcript=transcript, mode=args.memory,
                         candidates=kitchen.DRAWERS, planner=planner)
-    print(f"  memory arm: {args.memory}")
+    print(f"  memory arm: {args.memory}   placement: {args.placement}   "
+          f"perturb: {args.perturb} after pull {args.perturb_after}")
 
     retriever.init(backend="in-process")
     with Pipeline(name="astra drawer search") as pipe:
@@ -398,6 +457,8 @@ def main():
         "roles_on_astra": ["planner", "belief"],
         "memory": f"{args.memory} (measurement always structured; see memory.py)",
         "memory_mode": args.memory,
+        "placement": args.placement,
+        "perturbation": {"kind": args.perturb, "after": args.perturb_after, "events": perturb.events},
         "candidates": list(kitchen.DRAWERS),
         "unreachable": list(kitchen.UNREACHABLE_DRAWERS),
         "openable_by_primitive": openable,

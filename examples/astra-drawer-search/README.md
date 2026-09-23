@@ -172,7 +172,8 @@ This implements "E2 -- Long-horizon drawer search with memory" from
 ```sh
 ./.venv/bin/python pipeline.py --memory structured   # E2's robot-memory capability
 ./.venv/bin/python pipeline.py --memory transcript    # the control: a plain chronological log
-./.venv/bin/python compare.py --seeds 3 --decisions 8 # both arms, several seeds, one table
+./.venv/bin/python compare.py --seeds 3 --decisions 12  # arms x perturbations x seeds, one table
+./.venv/bin/python compare.py --perturb none --placement random --decisions 8  # the 22 Sept ablation
 ```
 
 The two arms are built from the same events -- what was attempted, what the pull
@@ -213,17 +214,57 @@ enough, or adversarial enough, for structure to earn its keep.
 That is what E2 anticipates. It says to *vary the number of candidate drawers*
 and to *inject one mid-task perturbation* -- a jammed drawer, a relocated
 target, a failed grasp, a stale observation -- and to run the perturbation
-study separately from the memory ablation. The infrastructure for the ablation
-is done; the conditions under which it could show a difference are not yet
-built: a target placed where the scan reaches it last, and a perturbation that
-makes the run's own earlier evidence wrong. Until then this table should be
-read as "the harness works and the two arms are truly identical apart from what
-the planner is handed", not as evidence about memory.
+study separately from the memory ablation. Read this table as "the harness works
+and the two arms are truly identical apart from what the planner is handed", not
+as evidence about memory.
 
 Also measured: with early termination a four-decision run takes 22-45 s of wall
 time end to end, against the 240-420 s the same runs spent idling before.
 
-Not built: the perturbation study, and placement that forces long horizons.
+### The perturbation study
+
+Both conditions E2 names are now built, and the model is never told about either:
+
+```sh
+./.venv/bin/python pipeline.py --placement last                  # target where the scan reaches it last
+./.venv/bin/python pipeline.py --perturb relocate --perturb-after 2   # target moves to an unopened drawer
+./.venv/bin/python pipeline.py --perturb stale                   # the belief sees the previous frame once
+./.venv/bin/python pipeline.py --perturb jam                     # the next drawer the scan reaches sticks
+```
+
+`relocate` and `jam` change the world after the k-th pull (`kitchen.DrawerWorld.relocate`
+and `.jam`: every drawer carries an invisible copy of every jar, so a move is an alpha
+toggle, and a jam is a slide-joint range that stops under `DrawerPull`'s 0.25 m
+verification, so the pull fails for real). `stale` hands the belief the frame from the
+pull before. Each run's record carries the perturbation and its events; `compare.py`
+adds a `correct` column (the report named the drawer the jar was actually in) and one
+row per arm x perturbation. `test_perturb.py` covers the mechanics with the model stubbed.
+
+### First perturbation batch (22 September): a physics confound, not a memory result
+
+Two seeds x {relocate, stale, jam} x both arms, ten-decision cap, target placed where the
+scan ends (`docs/e2-perturbation-2026-09-22.md`, $2.64 in total):
+
+| arm | perturb | found | correct | horizon | recovery | $ total |
+|---|---|---|---|---|---|---|
+| structured | relocate | 2/2 | 2/2 | 5.0 | 0.5 | 0.21 |
+| transcript | relocate | 2/2 | 2/2 | 4.5 | 0.0 | 0.19 |
+| structured | stale | 0/2 | 0/2 | 10.0 | 2.0 | 0.55 |
+| transcript | stale | 0/2 | 0/2 | 10.0 | 2.0 | 0.63 |
+| structured | jam | 0/2 | 0/2 | 10.0 | 2.0 | 0.49 |
+| transcript | jam | 0/2 | 0/2 | 10.0 | 2.0 | 0.57 |
+
+The arms are again indistinguishable, and the eight failed runs fail for the same physical
+reason: with the target in `drawer1_3`, the scan opens `drawer1_2` first and the pull on
+`drawer1_3` then ends `Drawer target not reached` (0.000 m) in every run -- an open drawer
+blocks the approach to its column-mate, the same effect measured in the harness's kitchen-sim
+plugin the same day. `drawer0_2` fails the same way behind an open `drawer0_1`. Only `relocate`
+found the jar, because it moved the jar into `drawer0_3` before the scan got there. So the
+perturbations were never the binding constraint: nothing closes a drawer, and after two or
+three pulls most of the remaining drawers cannot be opened. Before the memory comparison can
+be read, the robot needs a `close_drawer` primitive (or the planner must be told which drawers
+an open neighbour blocks), and `relocate` should fire after the target drawer has been
+observed, not before.
 
 ## Running to completion
 

@@ -66,6 +66,7 @@ class DrawerWorld(DrawerPull):
 
     def __init__(self, placements, camera_pos=None, camera_target=None):
         self._placements = list(placements)
+        self._labels = [place.label for place in self._placements]
         self._camera_pos = list(camera_pos or (0.30, 1.95, 1.62))
         self._camera_target = list(camera_target or (-0.20, 2.45, 0.70))
         # DrawerPull.__init__ hardcodes one drawer; go straight to CupTransfer.
@@ -110,17 +111,36 @@ class DrawerWorld(DrawerPull):
             name="drawer_view", pos=self._camera_pos,
             xyaxes=look_at(self._camera_pos, self._camera_target),
         )
-        for index, place in enumerate(self._placements):
-            drawer_body = spec.body(place.drawer)
-            # Body origin is the front panel; floor z=-0.035, walls top at +0.052. Seat the jar on the floor.
-            jar = drawer_body.add_body(
-                name=f"target_{index}", pos=[0.0, 0.26, -0.035 + JAR_HALF])
-            # Visual-only: a collidable jar jams the pull at 0.014 m instead of 0.30 m.
-            jar.add_geom(
-                name=f"target_{index}_geom", type=mujoco.mjtGeom.mjGEOM_CYLINDER,
-                size=[0.026, JAR_HALF, 0], mass=0, contype=0, conaffinity=0, group=1,
-                rgba=[*JAR_COLOURS.get(place.label, (0.5, 0.5, 0.5)), 1.0],
-            )
+        # Every drawer gets a copy of every jar, drawn only where it was placed, so relocate() can
+        # move a jar without recompiling (a body cannot change parent at run time). Look the drawers
+        # up before adding anything: mujoco 3.3.1's spec.body(name) returns the last body added once
+        # there is one, which chained the jars under each other.
+        truth = self.ground_truth()
+        drawers = {drawer: spec.body(drawer) for drawer in DRAWERS}
+        for drawer, drawer_body in drawers.items():
+            for index, label in enumerate(self._labels):
+                # Body origin is the front panel; floor z=-0.035, walls top at +0.052. Seat the jar on the floor.
+                jar = drawer_body.add_body(
+                    name=f"target_{index}_{drawer}", pos=[0.0, 0.26, -0.035 + JAR_HALF])
+                # Visual-only: a collidable jar jams the pull at 0.014 m instead of 0.30 m.
+                jar.add_geom(
+                    name=f"target_{index}_{drawer}_geom", type=mujoco.mjtGeom.mjGEOM_CYLINDER,
+                    size=[0.026, JAR_HALF, 0], mass=0, contype=0, conaffinity=0, group=1,
+                    rgba=[*JAR_COLOURS.get(label, (0.5, 0.5, 0.5)), float(truth.get(drawer) == label)],
+                )
+
+    # -- mid-task faults (E2's perturbation study) ----------------------------
+
+    def relocate(self, label, drawer):
+        place = next(p for p in self._placements if p.label == label)
+        index = self._labels.index(label)
+        self.model.geom(f"target_{index}_{place.drawer}_geom").rgba[3] = 0.0
+        self.model.geom(f"target_{index}_{drawer}_geom").rgba[3] = 1.0
+        place.drawer = drawer
+
+    def jam(self, drawer, stop_m=0.02):
+        """The slide stops at stop_m: under DrawerPull's 0.25 m, so the pull fails verification."""
+        self.model.joint(drawer + "_slide").range[:] = [0.0, stop_m]
 
     # -- retargeting without losing accumulated world state -----------------
 
